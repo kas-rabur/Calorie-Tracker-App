@@ -13,10 +13,8 @@ server.listen()
 
 
 def handle(c):
-    c.send("Username: ".encode())
     username = c.recv(1024).decode()
 
-    c.send("Password: ".encode())
     password = c.recv(1024)
     password = hashlib.sha256(password).hexdigest()
 
