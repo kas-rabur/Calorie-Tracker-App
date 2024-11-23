@@ -3,8 +3,11 @@ import hashlib
 import socket
 import threading
 
+host = "127.0.0.1"
+port = 55555
+
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.bind(("localhost", 9999))
+server.bind((host, port))
 
 server.listen()
 
@@ -27,6 +30,6 @@ def handle(c):
     else:
         c.send("Login failed!".encode())
 
-    while True:
-        client, address = server.accept()
-        threading.Thread(target=handle, args=(client,)).start()
+while True:
+    client, address = server.accept()
+    threading.Thread(target=handle, args=(client,)).start()
