@@ -8,7 +8,7 @@ root.geometry("500x300")
 
 #implement login logic here 
 def login():
-    pass
+    print("test")
 
 frame = customtkinter.CTkFrame(master=root)
 frame.pack(pady=2, padx=60, fill="both", expand=True)
@@ -27,3 +27,5 @@ button.pack(pady=12, padx=10)
 
 checkbox = customtkinter.CTkCheckBox(master=frame, text="Stay Logged In?")
 checkbox.pack(pady=12, padx=10)
+
+root.mainloop()
