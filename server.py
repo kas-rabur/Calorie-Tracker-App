@@ -15,6 +15,7 @@ def handle(c):
         choice = c.recv(1024).decode()
         print(f"Received Choice: {choice}")
         c.send("Received Choice".encode())
+        print(choice)
 
         if choice == "LOGIN":
             username = c.recv(1024).decode()
@@ -54,6 +55,9 @@ def handle(c):
                 conn.commit()
                 c.send("Register successful!".encode())
                 print("Register successful!")
+
+        else:
+            print("NO IF STATEMENT")
 
             conn.close()
     except Exception as e:
