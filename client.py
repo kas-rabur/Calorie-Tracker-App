@@ -16,14 +16,13 @@ def show_frame(frame):
     frame.tkraise()
 
 def login():
-    print("in login")
     username1 = username_field_login.get()
     password1 = password_field_login.get()
-    print(f"username and password{username1}, {password1}")
     client.send(username1.encode())
     client.send(password1.encode())
     message1 = client.recv(1024).decode()
-    print(f"Login Response: {message1}")
+    print(message1)
+
 
 def register():
     username = username_field_register.get()
@@ -31,13 +30,12 @@ def register():
     client.send(username.encode())
     client.send(password.encode())
     message = client.recv(1024).decode()
-    print(f"Register Response: {message}")
+    print(message)
+
 
 def choiceHandle(choice):
     client.send(choice.encode())
     message = client.recv(1024).decode()
-    print(f"Choice Response: {message}")
-
     if choice == "LOGIN":
         login()
     elif choice == "REGISTER":
