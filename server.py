@@ -13,62 +13,76 @@ class Server:
     
     def handle(self, c):
         try:
-            choice = c.recv(1024).decode()
-            print(f"Received Choice: {choice}")
-            c.send("Received Choice".encode())
+            while True:
+                choice = c.recv(1024).decode()
+                print(f"Received Choice: {choice}")
+                c.send("Received Choice".encode())
+            
+                if choice == "LOGIN":
+                    username = c.recv(1024).decode()
+                    password = c.recv(1024).decode()
+                    password = hashlib.sha256(password.encode()).hexdigest()
+                    print(f"Login Attempt From: {username}")
 
-            if choice == "LOGIN":
-                username = c.recv(1024).decode()
-                password = c.recv(1024).decode()
-                password = hashlib.sha256(password.encode()).hexdigest()
-                print(f"Login Attempt From: {username}")
+                    if username and password:
 
-                conn = sqlite3.connect("userdata.db")
-                cur = conn.cursor()
+                        conn = sqlite3.connect("userdata.db")
+                        cur = conn.cursor()
 
-                cur.execute("SELECT * FROM userdata WHERE username = ? AND password = ?", (username, password))
+                        cur.execute("SELECT * FROM userdata WHERE username = ? AND password = ?", (username, password))
 
-                if cur.fetchone():
-                    c.send("Login Successful!".encode())
-                    print("Login Successful!")
+                        if cur.fetchone():
+                            c.send("Login Successful!".encode())
+                            print("Login Successful!")
+                            conn.close()
+                            break
+                        else:
+                            c.send("Login Failed!".encode())
+                            print("Login Failed!")
+                            conn.close()
+                    else:
+                        print("EMPTY USERNAME AND PASSWORD")
+
+                elif choice == "REGISTER":
+                    username = c.recv(1024).decode()
+                    password = c.recv(1024).decode()
+                    password = hashlib.sha256(password.encode()).hexdigest()
+                    print(f"Register Attempt From: {username}")
+
+                    if username and password:
+
+                        conn = sqlite3.connect("userdata.db")
+                        cur = conn.cursor()
+
+                        cur.execute("SELECT username FROM userdata WHERE username = ?", (username,))
+                        if cur.fetchone():
+                            c.send("Account already registered!".encode())
+                            print("Account already registered!")
+                            conn.close()
+                        else:
+                            cur.execute("INSERT INTO userdata (username, password) VALUES (?, ?)", (username, password))
+                            conn.commit()
+                            c.send("Register successful!".encode())
+                            print("Register successful!")
+                            conn.close()
+                            break
+                    else:
+                        print("EMPTY USERNAME AND PASSWORD")
+                        
+                elif choice == "EMPTY":
+                    continue
                 else:
-                    c.send("Login Failed!".encode())
-                    print("Login Failed!")
+                    print("Invalid choice. Connection closing.")
+                    c.send("Invalid choice. Connection closing.".encode())
+                    break
 
-                conn.close()
-
-            elif choice == "REGISTER":
-                username = c.recv(1024).decode()
-                password = c.recv(1024).decode()
-                password = hashlib.sha256(password.encode()).hexdigest()
-                print(f"Register Attempt From: {username}")
-
-                conn = sqlite3.connect("userdata.db")
-                cur = conn.cursor()
-
-                cur.execute("SELECT username FROM userdata WHERE username = ?", (username,))
-                if cur.fetchone():
-                    c.send("Account already registered!".encode())
-                    print("Account already registered!")
-                else:
-                    cur.execute("INSERT INTO userdata (username, password) VALUES (?, ?)", (username, password))
-                    conn.commit()
-                    c.send("Register successful!".encode())
-                    print("Register successful!")
-
-            else:
-                print("NO IF STATEMENT")
-
-                conn.close()
         except Exception as e:
             c.send(f"An error occurred: {str(e)}".encode())
             print(f"An error occurred: {str(e)}")
         finally:
             c.close()
 
-
 server1 = Server()
-
 
 while True:
     client, address = server1.server.accept()
