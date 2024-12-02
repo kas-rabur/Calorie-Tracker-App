@@ -35,18 +35,33 @@ class LogInClient(ctk.CTk):
     def login(self):
         username = self.username_field_login.get()
         password = self.password_field_login.get()
-        self.client.send(username.encode())
-        self.client.send(password.encode())
-        message = self.client.recv(1024).decode()
-        print(message)
+        if username or password == "":
+            self.client.send(" ".encode())
+            self.client.send(" ".encode())
+            message = self.client.recv(1024).decode()
+            print(message)
+        else:
+
+            self.client.send(username.encode())
+            self.client.send(password.encode())
+            message = self.client.recv(1024).decode()
+            print(message)
+
 
     def register(self):
         username = self.username_field_register.get()
         password = self.password_field_register.get()
-        self.client.send(username.encode())
-        self.client.send(password.encode())
-        message = self.client.recv(1024).decode()
-        print(message)
+        if username or password == "":
+            self.client.send(" ".encode())
+            self.client.send(" ".encode())
+            message = self.client.recv(1024).decode()
+            print(message)
+        else:
+
+            self.client.send(username.encode())
+            self.client.send(password.encode())
+            message = self.client.recv(1024).decode()
+            print(message)
 
     def choice_handle(self, choice):
 
@@ -61,10 +76,6 @@ class LogInClient(ctk.CTk):
             message = self.client.recv(1024).decode()
             print(message)
             self.register()
-        else:
-            self.client.send("EMPTY".encode()) 
-            message = self.client.recv(1024).decode()
-            print(message)
 
     def create_widgets(self):
 
