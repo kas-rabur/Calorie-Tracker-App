@@ -13,16 +13,17 @@ class Server:
     
     def handle(self, c):
         
-        try:
-            choice = c.recv(1024).decode()
-            print(f"Received Choice: {choice}")
-            c.send("Received Choice".encode())
-        
-            if choice == "LOGIN":
-                try:
+        while True:
+            try:
+                choice = c.recv(1024).decode()
+                print(f"Received Choice: {choice}")
+                c.send("Received Choice".encode())
+            
+                if choice == "LOGIN":
+
                     username = c.recv(1024).decode()
                     password = c.recv(1024).decode()
-                    # password = hashlib.sha256(password.encode()).hexdigest()
+                    password = hashlib.sha256(password.encode()).hexdigest()
                     print(f"Login Attempt From: {username}")
 
                     conn = sqlite3.connect("userdata.db")
@@ -33,23 +34,19 @@ class Server:
                         c.send("Login Successful!".encode())
                         print("Login Successful!")
                         conn.close()
+                        break
         
                     else:
                         c.send("Login Failed!".encode())
                         print("Login Failed!")
-                        conn.close()
-                except:
-                        c.send("No username or password!".encode())
-                        print("no username or password!")
-                        conn.close()
+                        
 
-            elif choice == "REGISTER":
-                username = c.recv(1024).decode()
-                password = c.recv(1024).decode()
-                password = hashlib.sha256(password.encode()).hexdigest()
-                print(f"Register Attempt From: {username}")
+                elif choice == "REGISTER":
 
-                if username and password:
+                    username = c.recv(1024).decode()
+                    password = c.recv(1024).decode()
+                    password = hashlib.sha256(password.encode()).hexdigest()
+                    print(f"Register Attempt From: {username}")
 
                     conn = sqlite3.connect("userdata.db")
                     cur = conn.cursor()
@@ -58,25 +55,21 @@ class Server:
                     if cur.fetchone():
                         c.send("Account already registered!".encode())
                         print("Account already registered!")
-                        conn.close()
+                        
                     else:
                         cur.execute("INSERT INTO userdata (username, password) VALUES (?, ?)", (username, password))
                         conn.commit()
                         c.send("Register successful!".encode())
                         print("Register successful!")
                         conn.close()
-                      
+                        break
+                
                 else:
-                    print("EMPTY USERNAME AND PASSWORD")
-                     
-            else:
-                print("Invalid choice. Connection closing.")
+                    print("Invalid choice. Connection closing.")
 
-        except Exception as e:
-            print(f"An error occurred: {str(e)}")
-        finally:
-            print("CLOSING!")
-            c.close()
+            except Exception as e:
+                print(f"An error occurred: {str(e)}")
+
 
 server1 = Server()
 

@@ -25,57 +25,61 @@ class LogInClient(ctk.CTk):
         self.chat_frame = ctk.CTkFrame(self.container)
 
         for frame in (self.login_frame, self.register_frame, self.chat_frame):
-            frame.grid(row=0, column=1, sticky="nsew")
+            frame.grid(row=0, column=0, sticky="nsew")
 
         self.create_widgets()
 
     def show_frame(self, frame):
         frame.tkraise()
 
-    def login(self):
+    def login(self, choice):
         username = self.username_field_login.get()
         password = self.password_field_login.get()
-        if username or password == "":
-            self.client.send(" ".encode())
-            self.client.send(" ".encode())
-            message = self.client.recv(1024).decode()
-            print(message)
+
+        if username == "" or password == "":
+            self.login_chat_box.configure(state='normal')  # Enable the text box
+            self.login_chat_box.delete("1.0", "end")  # Clear the chat box
+            self.login_chat_box.insert("1.0", "No username or password provided")
+            self.login_chat_box.configure(state='disabled')  # Disable the text box again
+            print("No username or password provided")
+            return
         else:
-
-            self.client.send(username.encode())
-            self.client.send(password.encode())
-            message = self.client.recv(1024).decode()
-            print(message)
-
-
-    def register(self):
-        username = self.username_field_register.get()
-        password = self.password_field_register.get()
-        if username or password == "":
-            self.client.send(" ".encode())
-            self.client.send(" ".encode())
-            message = self.client.recv(1024).decode()
-            print(message)
-        else:
-
-            self.client.send(username.encode())
-            self.client.send(password.encode())
-            message = self.client.recv(1024).decode()
-            print(message)
-
-    def choice_handle(self, choice):
-
-        if choice == "LOGIN":
             self.client.send(choice.encode())
             message = self.client.recv(1024).decode() 
             print(message)
-            self.login()        
-           
-        elif choice == "REGISTER":
+        
+            self.client.send(username.encode())
+            self.client.send(password.encode())
+            message = self.client.recv(1024).decode()
+            self.login_chat_box.configure(state='normal')  # Enable the text box
+            self.login_chat_box.delete("1.0", "end")  # Clear the chat box
+            self.login_chat_box.insert("1.0", message)
+            self.login_chat_box.configure(state='disabled')  # Disable the text box again
+
+
+    def register(self, choice):
+        username = self.username_field_register.get()
+        password = self.password_field_register.get()
+
+        if username == "" or password == "":
+            self.register_chat_box.configure(state='normal')  # Enable the text box
+            self.login_chat_box.delete("1.0", "end")  # Clear the chat box
+            self.register_chat_box.insert("1.0", "No username or password provided")
+            self.register_chat_box.configure(state='disabled')  # Disable the text box again
+            print("No username or password provided")
+            return
+        else:
             self.client.send(choice.encode())
             message = self.client.recv(1024).decode()
             print(message)
-            self.register()
+
+            self.client.send(username.encode())
+            self.client.send(password.encode())
+            message = self.client.recv(1024).decode()
+            self.login_chat_box.configure(state='normal')  # Enable the text box
+            self.login_chat_box.delete("1.0", "end")  # Clear the chat box
+            self.login_chat_box.insert("1.0", message)
+            self.login_chat_box.configure(state='disabled')  # Disable the text box again
 
     def create_widgets(self):
 
@@ -90,18 +94,15 @@ class LogInClient(ctk.CTk):
         self.password_field_login = ctk.CTkEntry(self.login_frame, placeholder_text="Password", show="*")
         self.password_field_login.pack(pady=12, padx=10)
 
-        login_confirm_button = ctk.CTkButton(self.login_frame, text="Login", command=lambda: self.choice_handle("LOGIN"))
+        login_confirm_button = ctk.CTkButton(self.login_frame, text="Login", command=lambda: self.login("LOGIN"))
         login_confirm_button.pack(pady=12, padx=10)
 
         login_button = ctk.CTkButton(self.login_frame, text="Go to Register", command=lambda: self.show_frame(self.register_frame))
         login_button.pack(pady=12, padx=10)
 
-        test_confirm_button = ctk.CTkButton(self.login_frame, text="SWITCH FRAME", command=lambda: self.show_frame(self.chat_frame))
-        test_confirm_button.pack(pady=12, padx=10)
-
-        login_chat_box = ctk.CTkTextbox(self.login_frame, width=100, height=50)
-        login_chat_box.pack(pady=12, padx=10)
-        login_chat_box.configure(state='disabled')
+        self.login_chat_box = ctk.CTkTextbox(self.login_frame, width=150, height=50)
+        self.login_chat_box.pack(pady=12, padx=10)
+        self.login_chat_box.configure(state='disabled')
 
         # Register frame
 
@@ -115,15 +116,15 @@ class LogInClient(ctk.CTk):
         self.password_field_register = ctk.CTkEntry(self.register_frame, placeholder_text="Password", show="*")
         self.password_field_register.pack(pady=12, padx=10)
 
-        register_confirm_button = ctk.CTkButton(self.register_frame, text="Register", command=lambda: self.choice_handle("REGISTER"))
+        register_confirm_button = ctk.CTkButton(self.register_frame, text="Register", command=lambda: self.register("REGISTER"))
         register_confirm_button.pack(pady=12, padx=10)
 
         register_button = ctk.CTkButton(self.register_frame, text="Go to Login", command=lambda: self.show_frame(self.login_frame))
         register_button.pack(pady=12, padx=10)
 
-        register_chat_box = ctk.CTkTextbox(self.register_frame, width=100, height=50)
-        register_chat_box.pack(pady=12, padx=10)
-        register_chat_box.configure(state='disabled')
+        self.register_chat_box = ctk.CTkTextbox(self.register_frame, width=150, height=50)
+        self.register_chat_box.pack(pady=12, padx=10)
+        self.register_chat_box.configure(state='disabled')
 
         # Chat frame
 
