@@ -11,10 +11,9 @@ class LogInClient(ctk.CTk):
         self.client.connect((host, port))
 
     def setup_ui(self):
-        self.attributes('-fullscreen', True)
         ctk.set_appearance_mode("dark")
         ctk.set_default_color_theme("green")
-
+        self.geometry("600x400")
         self.container = ctk.CTkFrame(self)
         self.container.pack(fill="both", expand=True)
         self.container.grid_rowconfigure(0, weight=1)
@@ -56,6 +55,10 @@ class LogInClient(ctk.CTk):
             self.login_chat_box.insert("1.0", message)
             self.login_chat_box.configure(state='disabled')  # Disable the text box again
 
+            if message == "Login Successful!":
+                self.show_frame(self.chat_frame)
+
+
 
     def register(self, choice):
         username = self.username_field_register.get()
@@ -76,10 +79,10 @@ class LogInClient(ctk.CTk):
             self.client.send(username.encode())
             self.client.send(password.encode())
             message = self.client.recv(1024).decode()
-            self.login_chat_box.configure(state='normal')  # Enable the text box
-            self.login_chat_box.delete("1.0", "end")  # Clear the chat box
-            self.login_chat_box.insert("1.0", message)
-            self.login_chat_box.configure(state='disabled')  # Disable the text box again
+            self.register_chat_box.configure(state='normal')  # Enable the text box
+            self.register_chat_box.delete("1.0", "end")  # Clear the chat box
+            self.register_chat_box.insert("1.0", message)
+            self.register_chat_box.configure(state='disabled')  # Disable the text box again
 
     def create_widgets(self):
 

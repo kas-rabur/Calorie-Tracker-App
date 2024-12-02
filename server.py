@@ -11,7 +11,7 @@ class Server:
         self.server.bind((self.host, self.port))
         self.server.listen()
     
-    def handle(self, c):
+    def handle_login(self, c):
         
         while True:
             try:
@@ -70,9 +70,13 @@ class Server:
             except Exception as e:
                 print(f"An error occurred: {str(e)}")
 
+    def handle_chat():
+        pass
+
+
 
 server1 = Server()
 
 while True:
     client, address = server1.server.accept()
-    threading.Thread(target=server1.handle, args=(client,)).start()
+    threading.Thread(target=server1.handle_login, args=(client,)).start()
