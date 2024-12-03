@@ -2,6 +2,8 @@ import sqlite3
 import hashlib
 import socket
 import threading
+import jwt
+import datetime
 
 class Server:
     def __init__(self):
@@ -31,7 +33,18 @@ class Server:
                     cur.execute("SELECT * FROM userdata WHERE username = ? AND password = ?", (username, password))
 
                     if cur.fetchone():
-                        c.send("Login Successful!".encode())
+                        
+                        # token_gen = Tokens()
+                        # token_gen.gen_token(username)
+                        # token = token_gen.current_token
+                        
+                        # conn = sqlite3.connect("userdata.db")
+                        # cur = conn.cursor()
+                        # cur.execute("UPDATE userdata SET token = ? where username = ?", (token, username))
+                        # conn.commit()
+                        # c.send(f"Login Successful! Token = {token}".encode())
+                        c.send("Login Successful! Token".encode())
+
                         print("Login Successful!")
                         conn.close()
                         break
@@ -72,6 +85,33 @@ class Server:
 
     def handle_chat():
         pass
+
+
+
+class Tokens:
+    def __init__(self) -> None:
+        self.temp_secret_key = "tempkey"
+        self.current_token = ""
+
+
+    def gen_token(self, username):
+        token_store = {
+            "username" : username,
+            "expiry" : datetime.datetime.utcnow() + datetime.timedelta(hours=5)
+        }
+        token = jwt.encode(token, self.temp_secret_key, algorithm=["HS256"])
+        self.current_token = token
+        return token
+    
+
+    def verify_token(self, token):
+        try:
+            key = jwt.decode(token, self.temp_secret_key, algorithms=["HS256"])
+            return True, key
+        except jwt.ExpiredSignatureError:
+            return False, "Token has expired"
+        except jwt.InvalidTokenError:
+            return False, "Invalid Token"
 
 
 

@@ -13,6 +13,9 @@ class LogInClient(ctk.CTk):
     def login(self, choice):
         username = widgets.username_field_login.get()
         password = widgets.password_field_login.get()
+        print(username)
+        print(password)
+
 
         if username == "" or password == "":
             widgets.login_chat_box.configure(state='normal')  # Enable the text box
@@ -29,6 +32,8 @@ class LogInClient(ctk.CTk):
             self.client.send(username.encode())
             self.client.send(password.encode())
             message = self.client.recv(1024).decode()
+            print(message)
+
             widgets.login_chat_box.configure(state='normal')  # Enable the text box
             widgets.login_chat_box.delete("1.0", "end")  # Clear the chat box
             widgets.login_chat_box.insert("1.0", message)
