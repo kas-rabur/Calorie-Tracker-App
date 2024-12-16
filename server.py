@@ -43,7 +43,7 @@ class Server:
                         # cur.execute("UPDATE userdata SET token = ? where username = ?", (token, username))
                         # conn.commit()
                         # c.send(f"Login Successful! Token = {token}".encode())
-                        c.send("Login Successful! Token".encode())
+                        c.send("Login Successful!".encode())
 
                         print("Login Successful!")
                         conn.close()
@@ -83,9 +83,19 @@ class Server:
             except Exception as e:
                 print(f"An error occurred: {str(e)}")
 
-    def handle_chat():
+    def handle_calorie_tracker(self, c, username):
+        while True:
+            try:
+                choice = c.recv(1024).decode()
+
+            except:
+                pass
+
+    def view_data(self, c, username):
         pass
 
+    def add_food_item(self, c, username):
+        pass
 
 
 class Tokens:

@@ -40,7 +40,7 @@ class LogInClient(ctk.CTk):
             widgets.login_chat_box.configure(state='disabled')  # Disable the text box again
 
             if message == "Login Successful!":
-                widgets.show_frame(widgets.chat_frame)
+                widgets.show_frame(widgets.tracker_frame)
 
 
     def register(self, choice):
@@ -85,9 +85,9 @@ class Widgets(ctk.CTk):
 
         self.login_frame = ctk.CTkFrame(self.container)
         self.register_frame = ctk.CTkFrame(self.container)
-        self.chat_frame = ctk.CTkFrame(self.container)
+        self.tracker_frame = ctk.CTkFrame(self.container)
 
-        for frame in (self.login_frame, self.register_frame, self.chat_frame):
+        for frame in (self.login_frame, self.register_frame, self.tracker_frame):
             frame.grid(row=0, column=0, sticky="nsew")
 
         self.create_widgets()
@@ -142,24 +142,41 @@ class Widgets(ctk.CTk):
         self.register_chat_box.pack(pady=12, padx=10)
         self.register_chat_box.configure(state='disabled')
 
-        # Chat frame
+        # Tracker frame
 
-        chat_label = ctk.CTkLabel(self.chat_frame, text="Chat")
-        chat_label.pack(pady=12, padx=10)
+        tracker_label = ctk.CTkLabel(self.tracker_frame, text="Calorie Tracker") 
+        tracker_label.pack(pady=12, padx=10)
 
-        chat_box = ctk.CTkTextbox(self.chat_frame, width=400, height=350)
-        chat_box.pack(pady=12, padx=10)
-        chat_box.configure(state='disabled')
+        self.view_box = ctk.CTkTextbox(self.tracker_frame, width=400, height=200) 
+        self.view_box.pack(pady=12, padx=10) 
+        self.view_box.configure(state='disabled')
 
-        chat_field = ctk.CTkEntry(self.chat_frame, placeholder_text="Message here")
-        chat_field.pack(pady=12, padx=10)
+        add_button = ctk.CTkButton(self.tracker_frame, text="Add Food Item", command=self.add_food_items) 
+        add_button.pack(pady=12, padx=10)
 
-        chat_send_button = ctk.CTkButton(self.chat_frame, text="Send")
-        chat_send_button.pack(pady=12, padx=10)
+        view_button = ctk.CTkButton(self.tracker_frame, text="View Food Items", command=self.view_food_items) 
+        view_button.pack(pady=12, padx=10)
+
+        entry_field = ctk.CTkEntry(self.tracker_frame, placeholder_text="Message here") 
+        entry_field.pack(pady=12, padx=10)
 
         self.login_frame.tkraise()
 
 
+    def add_food_items(self):
+        add_window = ctk.CTkToplevel(self) 
+        add_window.title("Add Food Item") 
+        add_window.geometry("300x200") 
+        ctk.CTkLabel(add_window, text="Food Item").pack(pady=5) 
+        food_entry = ctk.CTkEntry(add_window) 
+        food_entry.pack(pady=5) 
+        ctk.CTkLabel(add_window, text="Calories").pack(pady=5) 
+        calories_entry = ctk.CTkEntry(add_window) 
+        calories_entry.pack(pady=5) 
+        ctk.CTkButton(add_window, text="Add", command=lambda: self.save_food_item(food_entry.get(), calories_entry.get(), add_window)).pack(pady=20)
+
+    def view_food_items():
+        pass
 
 if __name__ == "__main__":
     app = LogInClient("127.0.0.1", 55555)
