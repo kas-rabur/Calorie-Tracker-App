@@ -101,7 +101,10 @@ class Widgets(ctk.CTk):
 
         # Login frame
 
-        login_label = ctk.CTkLabel(self.login_frame, text="Login Screen")
+        login_label_frame = ctk.CTkFrame(self.login_frame, width=700, height=40)
+        login_label_frame.pack(fill='x')  
+
+        login_label = ctk.CTkLabel(login_label_frame, text="Login")
         login_label.pack(pady=12, padx=10)
 
         self.username_field_login = ctk.CTkEntry(self.login_frame, placeholder_text="Username")
@@ -122,8 +125,10 @@ class Widgets(ctk.CTk):
 
         # Register frame
 
+        register_label_frame = ctk.CTkFrame(self.register_frame, width=700, height=40)
+        register_label_frame.pack(fill='x')  
 
-        register_label = ctk.CTkLabel(self.register_frame, text="Register Screen")
+        register_label = ctk.CTkLabel(register_label_frame, text="Register")
         register_label.pack(pady=12, padx=10)
 
         self.username_field_register = ctk.CTkEntry(self.register_frame, placeholder_text="Username")
@@ -144,20 +149,30 @@ class Widgets(ctk.CTk):
 
         # Tracker frame
 
-        tracker_label = ctk.CTkLabel(self.tracker_frame, text="Calorie Tracker") 
+     
+        tracker_label_frame = ctk.CTkFrame(self.tracker_frame, width=700, height=40)
+        tracker_label_frame.pack(fill='x')  
+
+        tracker_label = ctk.CTkLabel(tracker_label_frame, text="Calorie Tracker", font=("Helvetica", 16, "bold"))
         tracker_label.pack(pady=12, padx=10)
 
-        self.view_box = ctk.CTkTextbox(self.tracker_frame, width=400, height=200) 
-        self.view_box.pack(pady=12, padx=10) 
+        calories_left_label = ctk.CTkLabel(self.tracker_frame, text="Calories left: 2000")
+        calories_left_label.pack(anchor='w', padx=10)
+
+        totals_consumed = ctk.CTkLabel(self.tracker_frame, text="Total Consumed: ")
+        totals_consumed.pack(anchor='w', padx=10)
+
+        self.view_box = ctk.CTkTextbox(self.tracker_frame, width=700, height=200)
+        self.view_box.pack(pady=12, padx=10)
         self.view_box.configure(state='disabled')
 
-        add_button = ctk.CTkButton(self.tracker_frame, text="Add Food Item", command=self.add_food_items) 
+        add_button = ctk.CTkButton(self.tracker_frame, text="Add Food Item", font=("Helvetica", 12, "bold"), command=self.add_food_items)
         add_button.pack(pady=12, padx=10)
 
-        view_button = ctk.CTkButton(self.tracker_frame, text="View Food Items", command=self.view_food_items) 
+        view_button = ctk.CTkButton(self.tracker_frame, text="View Food Items", font=("Helvetica", 12, "bold"), command=self.view_food_items)
         view_button.pack(pady=12, padx=10)
 
-        entry_field = ctk.CTkEntry(self.tracker_frame, placeholder_text="Message here") 
+        entry_field = ctk.CTkEntry(self.tracker_frame, placeholder_text="Message here")
         entry_field.pack(pady=12, padx=10)
 
         self.login_frame.tkraise()

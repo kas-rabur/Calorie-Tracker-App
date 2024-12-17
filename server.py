@@ -75,7 +75,7 @@ class Server:
                         c.send("Register successful!".encode())
                         print("Register successful!")
                         conn.close()
-                        break
+                        
                 
                 else:
                     print("Invalid choice. Connection closing.")
