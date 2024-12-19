@@ -80,11 +80,11 @@ class Server:
 
             except Exception as e:
                 print(f"An error occurred: {str(e)}")
-
+                
     def fetch_food_data(self, username):
         conn = sqlite3.connect("userdata.db")
         cur = conn.cursor()
-        cur.execute("SELECT date, food_item, calories FROM calorie_data")
+        cur.execute("SELECT date, food_item, calories FROM calorie_data WHERE username = ? ", (username,))
         data = cur.fetchall()
         conn.close()
         print(data)

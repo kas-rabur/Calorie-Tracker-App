@@ -9,7 +9,7 @@ class LogInClient(ctk.CTk):
         self.port = port
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.client.connect((host, port))
-        
+
         self.prime = int(self.client.recv(1024).decode())
         self.base = int(self.client.recv(1024).decode())
         self.server_public_key = int(self.client.recv(1024).decode())
@@ -189,17 +189,19 @@ class Widgets(ctk.CTk):
     def add_food_items(self):
         add_window = ctk.CTkToplevel(self) 
         add_window.title("Add Food Item") 
-        add_window.geometry("300x200") 
+        add_window.geometry("400x300") 
         ctk.CTkLabel(add_window, text="Food Item").pack(pady=5) 
         food_entry = ctk.CTkEntry(add_window) 
         food_entry.pack(pady=5) 
         ctk.CTkLabel(add_window, text="Calories").pack(pady=5) 
         calories_entry = ctk.CTkEntry(add_window) 
         calories_entry.pack(pady=5) 
-        ctk.CTkButton(add_window, text="Add", command=lambda: self.save_food_item(food_entry.get(), calories_entry.get(), add_window)).pack(pady=20)
+        ctk.CTkButton(add_window, text="Add").pack(pady=20)
 
     def view_food_items():
         pass
+    
+
 
 if __name__ == "__main__":
     app = LogInClient("127.0.0.1", 55555)
