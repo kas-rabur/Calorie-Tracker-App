@@ -15,19 +15,15 @@ class Server:
         self.base = 2
 
     def handle_client(self, client):
-        # Generate server's private and public keys
+   
         server_private_key = number.getRandomRange(1, self.prime-1)
         server_public_key = pow(self.base, server_private_key, self.prime)
 
-        # Send prime, base, and server's public key to the client
         client.send(str(self.prime).encode())
         client.send(str(self.base).encode())
         client.send(str(server_public_key).encode())
 
-        # Receive client's public key
         client_public_key = int(client.recv(1024).decode())
-
-        # Compute the shared secret key
         shared_key = pow(client_public_key, server_private_key, self.prime)
         print(f"Shared key: {shared_key}")
 
@@ -84,6 +80,15 @@ class Server:
 
             except Exception as e:
                 print(f"An error occurred: {str(e)}")
+
+    def fetch_food_data(self, username):
+        conn = sqlite3.connect("userdata.db")
+        cur = conn.cursor()
+        cur.execute("SELECT date, food_item, calories FROM calorie_data")
+        data = cur.fetchall()
+        conn.close()
+        print(data)
+        return data
 
     def start(self):
         while True:
