@@ -1,4 +1,5 @@
 import socket
+from Crypto.Util import number
 import customtkinter as ctk
 
 class LogInClient(ctk.CTk):
@@ -8,50 +9,58 @@ class LogInClient(ctk.CTk):
         self.port = port
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.client.connect((host, port))
+        
+        self.prime = int(self.client.recv(1024).decode())
+        self.base = int(self.client.recv(1024).decode())
+        self.server_public_key = int(self.client.recv(1024).decode())
 
+        self.client_private_key = number.getRandomRange(1, self.prime - 1)
+        self.client_public_key = pow(self.base, self.client_private_key, self.prime)
+
+        self.client.send(str(self.client_public_key).encode())
+
+        #shared secret key
+        self.shared_key = pow(self.server_public_key, self.client_private_key, self.prime)
+        print(f"Shared key: {self.shared_key}")
 
     def login(self, choice):
         username = widgets.username_field_login.get()
         password = widgets.password_field_login.get()
-        print(username)
-        print(password)
-
 
         if username == "" or password == "":
-            widgets.login_chat_box.configure(state='normal')  # Enable the text box
-            widgets.login_chat_box.delete("1.0", "end")  # Clear the chat box
+            widgets.login_chat_box.configure(state='normal')
+            widgets.login_chat_box.delete("1.0", "end")
             widgets.login_chat_box.insert("1.0", "No username or password provided")
-            widgets.login_chat_box.configure(state='disabled')  # Disable the text box again
+            widgets.login_chat_box.configure(state='disabled')
             print("No username or password provided")
             return
         else:
             self.client.send(choice.encode())
-            message = self.client.recv(1024).decode() 
+            message = self.client.recv(1024).decode()
             print(message)
-        
+
             self.client.send(username.encode())
             self.client.send(password.encode())
             message = self.client.recv(1024).decode()
             print(message)
 
-            widgets.login_chat_box.configure(state='normal')  # Enable the text box
-            widgets.login_chat_box.delete("1.0", "end")  # Clear the chat box
+            widgets.login_chat_box.configure(state='normal')
+            widgets.login_chat_box.delete("1.0", "end")
             widgets.login_chat_box.insert("1.0", message)
-            widgets.login_chat_box.configure(state='disabled')  # Disable the text box again
+            widgets.login_chat_box.configure(state='disabled')
 
             if message == "Login Successful!":
                 widgets.show_frame(widgets.tracker_frame)
-
 
     def register(self, choice):
         username = widgets.username_field_register.get()
         password = widgets.password_field_register.get()
 
         if username == "" or password == "":
-            widgets.register_chat_box.configure(state='normal')  # Enable the text box
-            widgets.login_chat_box.delete("1.0", "end")  # Clear the chat box
+            widgets.register_chat_box.configure(state='normal')
+            widgets.login_chat_box.delete("1.0", "end")
             widgets.register_chat_box.insert("1.0", "No username or password provided")
-            widgets.register_chat_box.configure(state='disabled')  # Disable the text box again
+            widgets.register_chat_box.configure(state='disabled')
             print("No username or password provided")
             return
         else:
@@ -62,11 +71,10 @@ class LogInClient(ctk.CTk):
             self.client.send(username.encode())
             self.client.send(password.encode())
             message = self.client.recv(1024).decode()
-            widgets.register_chat_box.configure(state='normal')  # Enable the text box
-            widgets.register_chat_box.delete("1.0", "end")  # Clear the chat box
+            widgets.register_chat_box.configure(state='normal')
+            widgets.register_chat_box.delete("1.0", "end")
             widgets.register_chat_box.insert("1.0", message)
-            widgets.register_chat_box.configure(state='disabled')  # Disable the text box again
-
+            widgets.register_chat_box.configure(state='disabled')
 
 class Widgets(ctk.CTk):
     def __init__(self):
