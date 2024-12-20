@@ -1,44 +1,54 @@
 import socket
-import threading
 import hashlib
 import sqlite3
 from Crypto.Util import number
+import asyncio
 
 class Server:
     def __init__(self):
         self.host = "127.0.0.1"
         self.port = 55555
-        self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server.bind((self.host, self.port))
-        self.server.listen()
         self.prime = number.getPrime(256)
         self.base = 2
 
-    def handle_client(self, client):
-   
-        server_private_key = number.getRandomRange(1, self.prime-1)
+    async def start(self):
+        print("Server started")
+        server = await asyncio.start_server(self.handle_client, self.host, self.port)
+        async with server:
+            await server.serve_forever()
+
+    async def handle_client(self, reader, writer):
+        server_private_key = number.getRandomRange(1, self.prime - 1)
         server_public_key = pow(self.base, server_private_key, self.prime)
 
-        client.send(str(self.prime).encode())
-        client.send(str(self.base).encode())
-        client.send(str(server_public_key).encode())
+        writer.write(str(self.prime).encode() + b'\n')
+        writer.write(str(self.base).encode() + b'\n')
+        writer.write(str(server_public_key).encode() + b'\n')
+        await writer.drain()
 
-        client_public_key = int(client.recv(1024).decode())
+        data = await reader.readline()
+        client_public_key = int(data.decode().strip())
+
         shared_key = pow(client_public_key, server_private_key, self.prime)
         print(f"Shared key: {shared_key}")
 
-        self.handle_login(client)
+        await self.handle_login(reader, writer)
 
-    def handle_login(self, c):
+    async def handle_login(self, reader, writer):
         while True:
             try:
-                choice = c.recv(1024).decode()
-                print(f"Received Choice: {choice}")
-                c.send("Received Choice".encode())
-            
+                choice = await reader.readline()
+                choice = choice.decode().strip()
+
+                writer.write("Received Choice\n".encode())
+                await writer.drain()
+
                 if choice == "LOGIN":
-                    username = c.recv(1024).decode()
-                    password = c.recv(1024).decode()
+                    username = await reader.readline()
+                    password = await reader.readline()
+                    username = username.decode().strip()
+                    password = password.decode().strip()
+
                     password = hashlib.sha256(password.encode()).hexdigest()
                     print(f"Login Attempt From: {username}")
 
@@ -47,53 +57,47 @@ class Server:
                     cur.execute("SELECT * FROM userdata WHERE username = ? AND password = ?", (username, password))
 
                     if cur.fetchone():
-                        c.send("Login Successful!".encode())
+                        writer.write("Login Successful!\n".encode())
                         print("Login Successful!")
                         conn.close()
                         break
-        
                     else:
-                        c.send("Login Failed!".encode())
+                        writer.write("Login Failed!\n".encode())
                         print("Login Failed!")
-
                 elif choice == "REGISTER":
-                    username = c.recv(1024).decode()
-                    password = c.recv(1024).decode()
+                    username = await reader.readline()
+                    password = await reader.readline()
+                    username = username.decode().strip()
+                    password = password.decode().strip()
+
                     password = hashlib.sha256(password.encode()).hexdigest()
                     print(f"Register Attempt From: {username}")
 
                     conn = sqlite3.connect("userdata.db")
                     cur = conn.cursor()
-
                     cur.execute("SELECT username FROM userdata WHERE username = ?", (username,))
                     if cur.fetchone():
-                        c.send("Account already registered!".encode())
+                        writer.write("Account already registered!\n".encode())
                         print("Account already registered!")
                     else:
                         cur.execute("INSERT INTO userdata (username, password) VALUES (?, ?)", (username, password))
                         conn.commit()
-                        c.send("Register successful!".encode())
+                        writer.write("Register successful!\n".encode())
                         print("Register successful!")
                         conn.close()
                 else:
                     print("Invalid choice. Connection closing.")
-
             except Exception as e:
                 print(f"An error occurred: {str(e)}")
-                
+
     def fetch_food_data(self, username):
         conn = sqlite3.connect("userdata.db")
         cur = conn.cursor()
-        cur.execute("SELECT date, food_item, calories FROM calorie_data WHERE username = ? ", (username,))
+        cur.execute("SELECT date, food_item, calories FROM calorie_data WHERE username = ?", (username,))
         data = cur.fetchall()
         conn.close()
         print(data)
         return data
 
-    def start(self):
-        while True:
-            client, addr = self.server.accept()
-            threading.Thread(target=self.handle_client, args=(client,)).start()
-
 server = Server()
-server.start()
+asyncio.run(server.start())
