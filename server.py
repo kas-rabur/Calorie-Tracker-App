@@ -18,21 +18,27 @@ class Server:
             await server.serve_forever()
 
     async def handle_client(self, reader, writer):
-        server_private_key = number.getRandomRange(1, self.prime - 1)
-        server_public_key = pow(self.base, server_private_key, self.prime)
+        try:
+            server_private_key = number.getRandomRange(1, self.prime - 1)
+            server_public_key = pow(self.base, server_private_key, self.prime)
 
-        writer.write(str(self.prime).encode() + b'\n')
-        writer.write(str(self.base).encode() + b'\n')
-        writer.write(str(server_public_key).encode() + b'\n')
-        await writer.drain()
+            writer.write(str(self.prime).encode() + b'\n')
+            writer.write(str(self.base).encode() + b'\n')
+            writer.write(str(server_public_key).encode() + b'\n')
+            await writer.drain()
 
-        data = await reader.readline()
-        client_public_key = int(data.decode().strip())
+            data = await reader.readline()
+            client_public_key = int(data.decode().strip())
 
-        shared_key = pow(client_public_key, server_private_key, self.prime)
-        print(f"Shared key: {shared_key}")
+            shared_key = pow(client_public_key, server_private_key, self.prime)
+            print(f"Shared key: {shared_key}")
 
-        await self.handle_login(reader, writer)
+            await self.handle_login(reader, writer)
+        except:
+            print("Client disconnected...")
+        finally:
+            writer.close()
+            await writer.wait_closed()
 
     async def handle_login(self, reader, writer):
         while True:
@@ -89,6 +95,11 @@ class Server:
                     print("Invalid choice. Connection closing.")
             except Exception as e:
                 print(f"An error occurred: {str(e)}")
+            finally:
+                addr = writer.get_extra_info('peername')
+                print(f"Disconnected: {addr}")
+                writer.close() 
+                await writer.wait_closed()
 
     def fetch_food_data(self, username):
         conn = sqlite3.connect("userdata.db")
