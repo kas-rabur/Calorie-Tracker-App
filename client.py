@@ -1,4 +1,3 @@
-import socket
 from Crypto.Util import number
 import customtkinter as ctk
 import asyncio
@@ -11,6 +10,7 @@ class LogInClient(ctk.CTk):
         self.client = None  # Initialize the client socket
         self.loop = asyncio.get_event_loop()
         self.loop.run_until_complete(self.connect())
+
 
     async def connect(self):
         self.client = await asyncio.open_connection(self.host, self.port)
@@ -29,6 +29,7 @@ class LogInClient(ctk.CTk):
         #shared secret key
         self.shared_key = pow(self.server_public_key, self.client_private_key, self.prime)
         print(f"Shared key: {self.shared_key}")
+
 
     async def login(self, choice):
         reader, writer = self.client
@@ -65,6 +66,7 @@ class LogInClient(ctk.CTk):
             if message == "Login Successful!":
                 widgets.show_frame(widgets.tracker_frame)
 
+
     async def register(self, choice):
         reader, writer = self.client
         username = widgets.username_field_register.get()
@@ -97,10 +99,12 @@ class LogInClient(ctk.CTk):
             widgets.register_chat_box.insert("1.0", message)
             widgets.register_chat_box.configure(state='disabled')
 
+
 class Widgets(ctk.CTk):
     def __init__(self):
         super().__init__()
         self.setup_ui()
+ 
 
     def setup_ui(self):
         ctk.set_appearance_mode("dark")
@@ -114,16 +118,20 @@ class Widgets(ctk.CTk):
         self.login_frame = ctk.CTkFrame(self.container)
         self.register_frame = ctk.CTkFrame(self.container)
         self.tracker_frame = ctk.CTkFrame(self.container)
+        self.food_frame = ctk.CTkFrame(self.container)
 
-        for frame in (self.login_frame, self.register_frame, self.tracker_frame):
+        for frame in (self.login_frame, self.register_frame, self.tracker_frame, self.food_frame):
             frame.grid(row=0, column=0, sticky="nsew")
 
         self.create_widgets()
 
+
     def show_frame(self, frame):
         frame.tkraise()
 
+
     def create_widgets(self):
+
         # Login frame
         login_label_frame = ctk.CTkFrame(self.login_frame, width=700, height=40)
         login_label_frame.pack(fill='x')  
@@ -170,14 +178,31 @@ class Widgets(ctk.CTk):
         self.view_box = ctk.CTkTextbox(self.tracker_frame, width=700, height=200)
         self.view_box.pack(pady=12, padx=10)
         self.view_box.configure(state='disabled')
-        add_button = ctk.CTkButton(self.tracker_frame, text="Add Food Item", font=("Helvetica", 12, "bold"))
+        add_button = ctk.CTkButton(self.tracker_frame, text="Add Food Item", font=("Helvetica", 12, "bold"), command=lambda: self.show_frame(self.food_frame))
         add_button.pack(pady=12, padx=10)
         view_button = ctk.CTkButton(self.tracker_frame, text="View Food Items", font=("Helvetica", 12, "bold"))
         view_button.pack(pady=12, padx=10)
         entry_field = ctk.CTkEntry(self.tracker_frame, placeholder_text="Message here")
         entry_field.pack(pady=12, padx=10)
 
+        #add food frame
+        food_label_frame = ctk.CTkFrame(self.food_frame, width=700, height=40)
+        food_label_frame.pack(fill='x')  
+        food_label = ctk.CTkLabel(self.food_frame, text="Add Food Item", font=("Helvetica", 16, "bold"))
+        food_label.pack(pady=12, padx=10)        
+
+        self.food_item_name = ctk.CTkEntry(self.food_frame, placeholder_text="Food Item")
+        self.food_item_name.pack(pady=12, padx=10)
+        self.calories_in_food = ctk.CTkEntry(self.food_frame, placeholder_text="Calories", show="*")
+        self.calories_in_food.pack(pady=12, padx=10)
+
+        add_food_button = ctk.CTkButton(self.food_frame, text="Add Item")
+        add_food_button.pack(pady=12, padx=10)
+        return_button = ctk.CTkButton(self.food_frame, text="Return", command=lambda: self.show_frame(self.tracker_frame))
+        return_button.pack(pady=12, padx=10)
+
         self.login_frame.tkraise()
+
 
 if __name__ == "__main__":
     app = LogInClient("127.0.0.1", 55555)

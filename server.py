@@ -1,4 +1,3 @@
-import socket
 import hashlib
 import sqlite3
 from Crypto.Util import number
@@ -11,11 +10,13 @@ class Server:
         self.prime = number.getPrime(256)
         self.base = 2
 
+
     async def start(self):
         print("Server started")
         server = await asyncio.start_server(self.handle_client, self.host, self.port)
         async with server:
             await server.serve_forever()
+
 
     async def handle_client(self, reader, writer):
         try:
@@ -39,6 +40,7 @@ class Server:
         finally:
             writer.close()
             await writer.wait_closed()
+
 
     async def handle_login(self, reader, writer):
         while True:
@@ -101,6 +103,7 @@ class Server:
                 writer.close() 
                 await writer.wait_closed()
 
+
     def fetch_food_data(self, username):
         conn = sqlite3.connect("userdata.db")
         cur = conn.cursor()
@@ -109,6 +112,7 @@ class Server:
         conn.close()
         print(data)
         return data
+
 
 server = Server()
 asyncio.run(server.start())
