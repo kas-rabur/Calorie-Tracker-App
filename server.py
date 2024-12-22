@@ -44,25 +44,27 @@ class Server:
             await writer.wait_closed()
 
     async def handle_main(self, reader, writer):
+        
         try:
-            choice = await reader.readline()
-            choice = choice.decode().strip()
+            while True: 
+                choice = await reader.readline()
+                choice = choice.decode().strip()
 
-            writer.write("Received Choice\n".encode())
-            await writer.drain()
+                writer.write("Received Choice\n".encode())
+                await writer.drain()
 
-            if choice == "LOGIN":
-                await self.login(reader, writer)
-            elif choice == "REGISTER":
-                await self.register(reader, writer)
-            elif choice == "FETCH":
-                await self.fetch_food_data(reader, writer)
-            elif choice == "ADD":
-                await self.add_food_item(reader, writer)
-            else:
-                print("Invalid choice. Connection closing.")
-                writer.close()
-                await writer.wait_closed()
+                if choice == "LOGIN":
+                    await self.login(reader, writer)
+                elif choice == "REGISTER":
+                    await self.register(reader, writer)
+                elif choice == "FETCH":
+                    await self.fetch_food_data(reader, writer)
+                elif choice == "ADD":
+                    await self.add_food_item(reader, writer)
+                else:
+                    print("Invalid choice. Connection closing.")
+                    writer.close()
+                    await writer.wait_closed()
         except Exception as e:
             print(f"An error occurred: {str(e)}")
         finally:
@@ -82,7 +84,7 @@ class Server:
 
         conn = sqlite3.connect("userdata.db")
         cur = conn.cursor()
-        cur.execute("SELECT * FROM userdata WHERE username = ? AND password = ?", (username, password))
+        cur.execute("SELECT * FROM userdata WHERE username_client = ? AND password = ?", (username, password))
 
         if cur.fetchone():
             writer.write("Login Successful!\n".encode())
@@ -103,12 +105,12 @@ class Server:
 
         conn = sqlite3.connect("userdata.db")
         cur = conn.cursor()
-        cur.execute("SELECT username FROM userdata WHERE username = ?", (username,))
+        cur.execute("SELECT username_client FROM userdata WHERE username_client = ?", (username,))
         if cur.fetchone():
             writer.write("Account already registered!\n".encode())
             print("Account already registered!")
         else:
-            cur.execute("INSERT INTO userdata (username, password) VALUES (?, ?)", (username, password))
+            cur.execute("INSERT INTO userdata (username_client, password) VALUES (?, ?)", (username, password))
             conn.commit()
             writer.write("Register successful!\n".encode())
             print("Register successful!")
