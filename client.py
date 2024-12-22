@@ -117,36 +117,40 @@ class LogInClient(ctk.CTk):
         data = (await reader.readline()).decode().strip()
         print(data)
 
+        data_new = data[1:-1].split("), (")
+        new_data = ""
+        for entry in data_new:
+            entry = entry.replace("(", "").replace(")", "").replace("'", "").split(", ")
+            date, name, calories = entry
+            new_data += (f"{name}: {calories}\n")
+
+        widgets.view_box.configure(state='normal') 
+        widgets.view_box.delete("1.0", "end") 
+        widgets.view_box.insert("1.0", new_data) 
+        widgets.view_box.configure(state='disabled')
+
     async def add_food_item(self, choice):
         reader, writer = self.client
         food_item = widgets.food_item_name.get()
         calories = widgets.calories_in_food.get()
         username = self.clients[(reader, writer)]
 
-        if food_item == "" or calories == "":
-            widgets.food_chat_box.configure(state='normal')
-            widgets.food_chat_box.delete("1.0", "end")
-            widgets.food_chat_box.insert("1.0", "No food item or calories provided")
-            widgets.food_chat_box.configure(state='disabled')
-            print("No food item or calories provided")
-            return
-        else:
-            writer.write(f"{choice}\n".encode())
-            await writer.drain()
-            message = (await reader.readline()).decode().strip()
 
-            print(message)
+        writer.write(f"{choice}\n".encode())
+        await writer.drain()
+        message = (await reader.readline()).decode().strip()
 
-            writer.write(f"{(food_item, calories, username)}\n".encode())
-            await writer.drain()
+        print(message)
 
-            message = (await reader.readline()).decode().strip()
-            print(message)
+        writer.write(f"{food_item}\n".encode())
+        writer.write(f"{calories}\n".encode())
+        writer.write(f"{username}\n".encode())
 
-            widgets.food_chat_box.configure(state='normal')
-            widgets.food_chat_box.delete("1.0", "end")
-            widgets.food_chat_box.insert("1.0", message)
-            widgets.food_chat_box.configure(state='disabled')
+        await writer.drain()
+
+        message = (await reader.readline()).decode().strip()
+        print(message)
+
 
 
 class Widgets(ctk.CTk):
@@ -227,9 +231,9 @@ class Widgets(ctk.CTk):
         self.view_box = ctk.CTkTextbox(self.tracker_frame, width=700, height=200)
         self.view_box.pack(pady=12, padx=10)
         self.view_box.configure(state='disabled')
-        add_button = ctk.CTkButton(self.tracker_frame, text="Add Food Item", font=("Helvetica", 12, "bold"))
+        add_button = ctk.CTkButton(self.tracker_frame, text="Add Food Item", font=("Helvetica", 12, "bold"), command=lambda: self.show_frame(self.food_frame))
         add_button.pack(pady=12, padx=10)
-        view_button = ctk.CTkButton(self.tracker_frame, text="View Food Items", font=("Helvetica", 12, "bold"), command=lambda: self.show_frame(self.food_frame))
+        view_button = ctk.CTkButton(self.tracker_frame, text="View Food Items", font=("Helvetica", 12, "bold"), command=lambda: app.loop.run_until_complete(app.fetch_data("FETCH")))
         view_button.pack(pady=12, padx=10)
         entry_field = ctk.CTkEntry(self.tracker_frame, placeholder_text="Message here")
         entry_field.pack(pady=12, padx=10)
@@ -242,10 +246,10 @@ class Widgets(ctk.CTk):
 
         self.food_item_name = ctk.CTkEntry(self.food_frame, placeholder_text="Food Item")
         self.food_item_name.pack(pady=12, padx=10)
-        self.calories_in_food = ctk.CTkEntry(self.food_frame, placeholder_text="Calories", show="*")
+        self.calories_in_food = ctk.CTkEntry(self.food_frame, placeholder_text="Calories")
         self.calories_in_food.pack(pady=12, padx=10)
 
-        add_food_button = ctk.CTkButton(self.food_frame, text="Add Item", command=lambda: app.loop.run_until_complete(app.fetch_data("FETCH")))
+        add_food_button = ctk.CTkButton(self.food_frame, text="Add Item", command=lambda: app.loop.run_until_complete(app.add_food_item("ADD")))
         add_food_button.pack(pady=12, padx=10)
         return_button = ctk.CTkButton(self.food_frame, text="Return", command=lambda: self.show_frame(self.tracker_frame))
         return_button.pack(pady=12, padx=10)
