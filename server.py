@@ -129,9 +129,12 @@ class Server:
         try:
             username = (await reader.readline()).decode().strip()
 
+            now = datetime.now() 
+            current_date = now.strftime("%d-%m-%Y")
+
             conn = sqlite3.connect("userdata.db")
             cur = conn.cursor()
-            cur.execute("SELECT date, food_item, calories FROM calorie_data WHERE username = ?", (username,))
+            cur.execute("SELECT date, food_item, calories FROM calorie_data WHERE username = ? AND date = ?", (username, current_date))
             data = cur.fetchall()
             conn.close()
             print(data)

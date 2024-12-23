@@ -150,6 +150,8 @@ class LogInClient(ctk.CTk):
 
         message = (await reader.readline()).decode().strip()
         print(message)
+        await self.fetch_data("FETCH")
+        widgets.show_frame(widgets.tracker_frame)
 
 
 
