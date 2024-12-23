@@ -17,14 +17,14 @@ class LogInClient(ctk.CTk):
         self.client = await asyncio.open_connection(self.host, self.port)
         reader, writer = self.client
 
-        self.prime = int((await reader.readline()).decode().strip())
-        self.base = int((await reader.readline()).decode().strip())
-        self.server_public_key = int((await reader.readline()).decode().strip())
+        self.prime = int((await reader.readline()).decode('utf-8').strip())
+        self.base = int((await reader.readline()).decode('utf-8').strip())
+        self.server_public_key = int((await reader.readline()).decode('utf-8').strip())
 
         self.client_private_key = number.getRandomRange(1, self.prime - 1)
         self.client_public_key = pow(self.base, self.client_private_key, self.prime)
 
-        writer.write(f"{self.client_public_key}\n".encode())
+        writer.write(f"{self.client_public_key}\n".encode('utf-8'))
         await writer.drain()
 
         #shared secret key
@@ -45,18 +45,18 @@ class LogInClient(ctk.CTk):
             print("No username or password provided")
             return
         else:
-            writer.write(f"{choice}\n".encode())
+            writer.write(f"{choice}\n".encode('utf-8'))
             await writer.drain()
-            message = (await reader.readline()).decode().strip()
+            message = (await reader.readline()).decode('utf-8').strip()
 
             print(message)
 
-            writer.write(f"{username}\n".encode())
+            writer.write(f"{username}\n".encode('utf-8'))
             await writer.drain()
-            writer.write(f"{password}\n".encode())
+            writer.write(f"{password}\n".encode('utf-8'))
             await writer.drain()
 
-            message = (await reader.readline()).decode().strip()
+            message = (await reader.readline()).decode('utf-8').strip()
             print(message)
 
             widgets.login_chat_box.configure(state='normal')
@@ -87,18 +87,18 @@ class LogInClient(ctk.CTk):
             print("No username or password provided")
             return
         else:
-            writer.write(f"{choice}\n".encode())
+            writer.write(f"{choice}\n".encode('utf-8'))
             await writer.drain()
-            message = (await reader.readline()).decode().strip()
+            message = (await reader.readline('utf-8')).decode('utf-8').strip()
 
             print(message)
 
-            writer.write(f"{username}\n".encode())
+            writer.write(f"{username}\n".encode('utf-8'))
             await writer.drain()
-            writer.write(f"{password}\n".encode())
+            writer.write(f"{password}\n".encode('utf-8'))
             await writer.drain()
 
-            message = (await reader.readline()).decode().strip()
+            message = (await reader.readline()).decode('utf-8').strip()
             print(message)
 
             widgets.register_chat_box.configure(state='normal')
@@ -111,15 +111,15 @@ class LogInClient(ctk.CTk):
         username = self.clients[(reader, writer)]
         print(f"username: {username}")
 
-        writer.write(f"{choice}\n".encode())
+        writer.write(f"{choice}\n".encode('utf-8'))
         await writer.drain()
-        message = (await reader.readline()).decode().strip()
+        message = (await reader.readline()).decode('utf-8').strip()
         print(message)
 
-        writer.write(f"{username}\n".encode())
+        writer.write(f"{username}\n".encode('utf-8'))
         await writer.drain()
 
-        data = (await reader.readline()).decode().strip()
+        data = (await reader.readline()).decode('utf-8').strip()
         print(data)
 
         data_new = data[1:-1].split("), (")
@@ -139,18 +139,18 @@ class LogInClient(ctk.CTk):
             await asyncio.sleep(5)
             print("Sending heartbeat")
             reader, writer = self.client
-            writer.write("HEARTBEAT\n".encode())
+            writer.write("HEARTBEAT\n".encode('utf-8'))
             await writer.drain()
             
     async def fetch_client_data(self, choice):
         reader, writer = self.client
-        writer.write(f"{choice}\n".encode())
+        writer.write(f"{choice}\n".encode('utf-8'))
         await writer.drain()
 
-        message = (await reader.readline()).decode().strip()
+        message = (await reader.readline()).decode('utf-8').strip()
         print(message)  
 
-        client_data = (await reader.readline()).decode().strip()
+        client_data = (await reader.readline()).decode('utf-8').strip()
         print(client_data)
 
         widgets.admin_view_box.configure(state='normal') 
@@ -165,19 +165,19 @@ class LogInClient(ctk.CTk):
         username = self.clients[(reader, writer)]
 
 
-        writer.write(f"{choice}\n".encode())
+        writer.write(f"{choice}\n".encode('utf-8'))
         await writer.drain()
-        message = (await reader.readline()).decode().strip()
+        message = (await reader.readline()).decode('utf-8').strip()
 
         print(message)
 
-        writer.write(f"{food_item}\n".encode())
-        writer.write(f"{calories}\n".encode())
-        writer.write(f"{username}\n".encode())
+        writer.write(f"{food_item}\n".encode('utf-8'))
+        writer.write(f"{calories}\n".encode('utf-8'))
+        writer.write(f"{username}\n".encode('utf-8'))
 
         await writer.drain()
 
-        message = (await reader.readline()).decode().strip()
+        message = (await reader.readline()).decode('utf-8').strip()
         print(message)
         await self.fetch_data("FETCH_FOOD_DATA")
         widgets.show_frame(widgets.tracker_frame)

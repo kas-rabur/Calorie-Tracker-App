@@ -24,13 +24,13 @@ class Server:
             server_private_key = number.getRandomRange(1, self.prime - 1)
             server_public_key = pow(self.base, server_private_key, self.prime)
 
-            writer.write(str(self.prime).encode() + b'\n')
-            writer.write(str(self.base).encode() + b'\n')
-            writer.write(str(server_public_key).encode() + b'\n')
+            writer.write(str(self.prime).encode('utf-8') + b'\n')
+            writer.write(str(self.base).encode('utf-8') + b'\n')
+            writer.write(str(server_public_key).encode('utf-8') + b'\n')
             await writer.drain()
 
             data = await reader.readline()
-            client_public_key = int(data.decode().strip())
+            client_public_key = int(data.decode('utf-8').strip())
 
             shared_key = pow(client_public_key, server_private_key, self.prime)
             print(f"Shared key: {shared_key}")
@@ -50,9 +50,9 @@ class Server:
         try:
             while True:
                 choice = await reader.readline()
-                choice = choice.decode().strip()
+                choice = choice.decode('utf-8').strip()
 
-                writer.write("Received Choice\n".encode())
+                writer.write("Received Choice\n".encode('utf-8'))
                 await writer.drain()
 
                 if choice == "LOGIN":
@@ -83,7 +83,7 @@ class Server:
 
     async def handle_heartbeat(self, reader, writer):
         try:
-            heartbeat = (await reader.readline()).decode().strip()
+            heartbeat = (await reader.readline()).decode('utf-8').strip()
             print(f"Heartbeat from {writer.get_extra_info('peername')}")
         except:
             pass
@@ -91,10 +91,10 @@ class Server:
         try:
             username = await reader.readline()
             password = await reader.readline()
-            username = username.decode().strip()
-            password = password.decode().strip()
+            username = username.decode('utf-8').strip()
+            password = password.decode('utf-8').strip()
 
-            password = hashlib.sha256(password.encode()).hexdigest()
+            password = hashlib.sha256(password.encode('utf-8')).hexdigest()
             print(f"Login Attempt From: {username}")
 
             conn = sqlite3.connect("userdata.db")
@@ -103,13 +103,13 @@ class Server:
 
             if cur.fetchone():
                 if username == "admin":
-                    writer.write("Admin Login Successful!\n".encode())
+                    writer.write("Admin Login Successful!\n".encode('utf-8'))
                     print("Admin Login Successful!")
                 else:
-                    writer.write("Login Successful!\n".encode())
+                    writer.write("Login Successful!\n".encode('utf-8'))
                     print("Login Successful!")
             else:
-                writer.write("Login Failed!\n".encode())
+                writer.write("Login Failed!\n".encode('utf-8'))
                 print("Login Failed!")
             conn.close()
         except Exception as e:
@@ -119,22 +119,22 @@ class Server:
         try:
             username = await reader.readline()
             password = await reader.readline()
-            username = username.decode().strip()
-            password = password.decode().strip()
+            username = username.decode('utf-8').strip()
+            password = password.decode('utf-8').strip()
 
-            password = hashlib.sha256(password.encode()).hexdigest()
+            password = hashlib.sha256(password.encode('utf-8')).hexdigest()
             print(f"Register Attempt From: {username}")
 
             conn = sqlite3.connect("userdata.db")
             cur = conn.cursor()
             cur.execute("SELECT username_client FROM userdata WHERE username_client = ?", (username,))
             if cur.fetchone():
-                writer.write("Account already registered!\n".encode())
+                writer.write("Account already registered!\n".encode('utf-8'))
                 print("Account already registered!")
             else:
                 cur.execute("INSERT INTO userdata (username_client, password) VALUES (?, ?)", (username, password))
                 conn.commit()
-                writer.write("Register successful!\n".encode())
+                writer.write("Register successful!\n".encode('utf-8'))
                 print("Register successful!")
             conn.close()
         except Exception as e:
@@ -142,7 +142,7 @@ class Server:
 
     async def fetch_food_data(self, reader, writer):
         try:
-            username = (await reader.readline()).decode().strip()
+            username = (await reader.readline()).decode('utf-8').strip()
 
             now = datetime.now() 
             current_date = now.strftime("%d-%m-%Y")
@@ -153,16 +153,16 @@ class Server:
             data = cur.fetchall()
             conn.close()
             print(data)
-            writer.write(f"{data}\n".encode())
+            writer.write(f"{data}\n".encode('utf-8'))
             await writer.drain()
         except Exception as e:
             print(f"An error occurred while fetching food data: {e}")
 
     async def add_food_item(self, reader, writer):
         try:
-            food = (await reader.readline()).decode().strip()
-            calories = (await reader.readline()).decode().strip()
-            username = (await reader.readline()).decode().strip()
+            food = (await reader.readline()).decode('utf-8').strip()
+            calories = (await reader.readline()).decode('utf-8').strip()
+            username = (await reader.readline()).decode('utf-8').strip()
 
             print(f"Food: {food}, Calories: {calories}, Username: {username}")
             now = datetime.now() 
@@ -173,7 +173,7 @@ class Server:
             cur.execute("INSERT INTO calorie_data (username, date, food_item, calories) VALUES (?, ?, ?, ?)", (username, current_date, food, calories))
             conn.commit()
             conn.close()
-            writer.write("Food item added!\n".encode())
+            writer.write("Food item added!\n".encode('utf-8'))
             await writer.drain()
         except Exception as e:
             print(f"An error occurred while adding food item: {e}")
@@ -188,7 +188,7 @@ class Server:
             conn.close()
             print(username_data)
 
-            writer.write(f"{username_data}\n".encode())
+            writer.write(f"{username_data}\n".encode('utf-8'))
             await writer.drain()
         except Exception as e:
             print(f"An error occurred while fetching client data: {e}")
