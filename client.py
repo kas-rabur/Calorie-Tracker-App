@@ -64,9 +64,14 @@ class LogInClient(ctk.CTk):
             widgets.login_chat_box.insert("1.0", message)
             widgets.login_chat_box.configure(state='disabled')
 
-            if message == "Login Successful!":
+            if message.startswith("Admin"):
+                widgets.show_frame(widgets.admin_frame)
+                
+            elif message == "Login Successful!":
                 self.clients[(reader, writer)] = username
                 widgets.show_frame(widgets.tracker_frame)
+
+            asyncio.create_task(app.heartbeat())
 
 
     async def register(self, choice):
@@ -101,7 +106,7 @@ class LogInClient(ctk.CTk):
             widgets.register_chat_box.insert("1.0", message)
             widgets.register_chat_box.configure(state='disabled')
 
-    async def fetch_data(self, choice):
+    async def fetch_food_data(self, choice):
         reader, writer = self.client
         username = self.clients[(reader, writer)]
         print(f"username: {username}")
@@ -129,6 +134,30 @@ class LogInClient(ctk.CTk):
         widgets.view_box.insert("1.0", new_data) 
         widgets.view_box.configure(state='disabled')
 
+    async def heartbeat(self):
+        while True:
+            await asyncio.sleep(5)
+            print("Sending heartbeat")
+            reader, writer = self.client
+            writer.write("HEARTBEAT\n".encode())
+            await writer.drain()
+            
+    async def fetch_client_data(self, choice):
+        reader, writer = self.client
+        writer.write(f"{choice}\n".encode())
+        await writer.drain()
+
+        message = (await reader.readline()).decode().strip()
+        print(message)  
+
+        client_data = (await reader.readline()).decode().strip()
+        print(client_data)
+
+        widgets.admin_view_box.configure(state='normal') 
+        widgets.admin_view_box.delete("1.0", "end") 
+        widgets.admin_view_box.insert("1.0", client_data) 
+        widgets.admin_view_box.configure(state='disabled')
+
     async def add_food_item(self, choice):
         reader, writer = self.client
         food_item = widgets.food_item_name.get()
@@ -150,9 +179,8 @@ class LogInClient(ctk.CTk):
 
         message = (await reader.readline()).decode().strip()
         print(message)
-        await self.fetch_data("FETCH")
+        await self.fetch_data("FETCH_FOOD_DATA")
         widgets.show_frame(widgets.tracker_frame)
-
 
 
 class Widgets(ctk.CTk):
@@ -174,8 +202,10 @@ class Widgets(ctk.CTk):
         self.register_frame = ctk.CTkFrame(self.container)
         self.tracker_frame = ctk.CTkFrame(self.container)
         self.food_frame = ctk.CTkFrame(self.container)
+        self.admin_frame = ctk.CTkFrame(self.container)
 
-        for frame in (self.login_frame, self.register_frame, self.tracker_frame, self.food_frame):
+
+        for frame in (self.login_frame, self.register_frame, self.tracker_frame, self.food_frame, self.admin_frame):
             frame.grid(row=0, column=0, sticky="nsew")
 
         self.create_widgets()
@@ -235,7 +265,7 @@ class Widgets(ctk.CTk):
         self.view_box.configure(state='disabled')
         add_button = ctk.CTkButton(self.tracker_frame, text="Add Food Item", font=("Helvetica", 12, "bold"), command=lambda: self.show_frame(self.food_frame))
         add_button.pack(pady=12, padx=10)
-        view_button = ctk.CTkButton(self.tracker_frame, text="View Food Items", font=("Helvetica", 12, "bold"), command=lambda: app.loop.run_until_complete(app.fetch_data("FETCH")))
+        view_button = ctk.CTkButton(self.tracker_frame, text="View Food Items", font=("Helvetica", 12, "bold"), command=lambda: app.loop.run_until_complete(app.fetch_food_data("FETCH_FOOD_DATA")))
         view_button.pack(pady=12, padx=10)
         entry_field = ctk.CTkEntry(self.tracker_frame, placeholder_text="Message here")
         entry_field.pack(pady=12, padx=10)
@@ -255,6 +285,22 @@ class Widgets(ctk.CTk):
         add_food_button.pack(pady=12, padx=10)
         return_button = ctk.CTkButton(self.food_frame, text="Return", command=lambda: self.show_frame(self.tracker_frame))
         return_button.pack(pady=12, padx=10)
+
+        # Admin tracker frame
+        admin_tracker_label_frame = ctk.CTkFrame(self.admin_frame, width=700, height=40)
+        admin_tracker_label_frame.pack(fill='x')  
+        admin_tracker_label = ctk.CTkLabel(admin_tracker_label_frame, text="Admin Interface", font=("Helvetica", 16, "bold"))
+        admin_tracker_label.pack(pady=12, padx=10)
+
+        self.admin_view_box = ctk.CTkTextbox(self.admin_frame, width=700, height=200)
+        self.admin_view_box.pack(pady=12, padx=10)
+        self.admin_view_box.configure(state='disabled')
+
+        admin_view_button = ctk.CTkButton(self.admin_frame, text="View client list", font=("Helvetica", 12, "bold"), command=lambda: app.loop.run_until_complete(app.fetch_client_data("FETCH_CLIENT_DATA")))
+        admin_view_button.pack(pady=12, padx=10)
+
+        admin_add_client = ctk.CTkButton(self.admin_frame, text="View client list", font=("Helvetica", 12, "bold"))
+        admin_add_client.pack(pady=12, padx=10)
 
         self.login_frame.tkraise()
 

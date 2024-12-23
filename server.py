@@ -59,10 +59,15 @@ class Server:
                     await self.login(reader, writer)
                 elif choice == "REGISTER":
                     await self.register(reader, writer)
-                elif choice == "FETCH":
+                elif choice == "FETCH_FOOD_DATA":
                     await self.fetch_food_data(reader, writer)
+                elif choice == "FETCH_CLIENT_DATA":
+                    await self.fetch_client_data(reader, writer)
                 elif choice == "ADD":
                     await self.add_food_item(reader, writer)
+                elif choice == "HEARTBEAT":
+                    print("in heartbeat choice")
+                    await self.handle_heartbeat(reader, writer)
                 else:
                     print("Invalid choice. Connection closing.")
                     break
@@ -76,6 +81,12 @@ class Server:
             writer.close()
             await writer.wait_closed()
 
+    async def handle_heartbeat(self, reader, writer):
+        try:
+            heartbeat = (await reader.readline()).decode().strip()
+            print(f"Heartbeat from {writer.get_extra_info('peername')}")
+        except:
+            pass
     async def login(self, reader, writer):
         try:
             username = await reader.readline()
@@ -91,8 +102,12 @@ class Server:
             cur.execute("SELECT * FROM userdata WHERE username_client = ? AND password = ?", (username, password))
 
             if cur.fetchone():
-                writer.write("Login Successful!\n".encode())
-                print("Login Successful!")
+                if username == "admin":
+                    writer.write("Admin Login Successful!\n".encode())
+                    print("Admin Login Successful!")
+                else:
+                    writer.write("Login Successful!\n".encode())
+                    print("Login Successful!")
             else:
                 writer.write("Login Failed!\n".encode())
                 print("Login Failed!")
@@ -162,6 +177,21 @@ class Server:
             await writer.drain()
         except Exception as e:
             print(f"An error occurred while adding food item: {e}")
+
+    async def fetch_client_data(self, reader, writer):
+        try:
+            conn = sqlite3.connect("userdata.db")
+            cur = conn.cursor()
+            cur.execute("SELECT username_client FROM userdata")
+
+            username_data = cur.fetchall()
+            conn.close()
+            print(username_data)
+
+            writer.write(f"{username_data}\n".encode())
+            await writer.drain()
+        except Exception as e:
+            print(f"An error occurred while fetching client data: {e}")
 
 server = Server()
 asyncio.run(server.start())
