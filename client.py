@@ -192,7 +192,7 @@ class Widgets(ctk.CTk):
     def setup_ui(self):
         ctk.set_appearance_mode("dark")
         ctk.set_default_color_theme("green")
-        self.geometry("600x400")
+        self.geometry("800x600")
         self.container = ctk.CTkFrame(self)
         self.container.pack(fill="both", expand=True)
         self.container.grid_rowconfigure(0, weight=1)
