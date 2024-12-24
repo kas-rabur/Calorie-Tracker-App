@@ -71,7 +71,7 @@ class LogInClient(ctk.CTk):
                 self.clients[(reader, writer)] = username
                 widgets.show_frame(widgets.tracker_frame)
 
-            asyncio.create_task(app.heartbeat())
+            # asyncio.create_task(app.heartbeat())
 
 
     async def register(self, choice):
@@ -89,7 +89,7 @@ class LogInClient(ctk.CTk):
         else:
             writer.write(f"{choice}\n".encode('utf-8'))
             await writer.drain()
-            message = (await reader.readline('utf-8')).decode('utf-8').strip()
+            message = (await reader.readline()).decode('utf-8').strip()
 
             print(message)
 
@@ -134,13 +134,13 @@ class LogInClient(ctk.CTk):
         widgets.view_box.insert("1.0", new_data) 
         widgets.view_box.configure(state='disabled')
 
-    async def heartbeat(self):
-        while True:
-            await asyncio.sleep(5)
-            print("Sending heartbeat")
-            reader, writer = self.client
-            writer.write("HEARTBEAT\n".encode('utf-8'))
-            await writer.drain()
+    # async def heartbeat(self):
+    #     while True:
+    #         await asyncio.sleep(5)
+    #         print("Sending heartbeat")
+    #         reader, writer = self.client
+    #         writer.write("HEARTBEAT\n".encode('utf-8'))
+    #         await writer.drain()
             
     async def fetch_client_data(self, choice):
         reader, writer = self.client
@@ -179,7 +179,6 @@ class LogInClient(ctk.CTk):
 
         message = (await reader.readline()).decode('utf-8').strip()
         print(message)
-        await self.fetch_data("FETCH_FOOD_DATA")
         widgets.show_frame(widgets.tracker_frame)
 
 

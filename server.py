@@ -3,6 +3,9 @@ import sqlite3
 from Crypto.Util import number
 import asyncio
 from datetime import datetime
+from Crypto.Protocol.KDF import scrypt 
+from Crypto.Random import get_random_bytes 
+import base64
 
 class Server:
     def __init__(self):
@@ -87,6 +90,7 @@ class Server:
             print(f"Heartbeat from {writer.get_extra_info('peername')}")
         except:
             pass
+
     async def login(self, reader, writer):
         try:
             username = await reader.readline()
@@ -94,20 +98,26 @@ class Server:
             username = username.decode('utf-8').strip()
             password = password.decode('utf-8').strip()
 
-            password = hashlib.sha256(password.encode('utf-8')).hexdigest()
-            print(f"Login Attempt From: {username}")
-
             conn = sqlite3.connect("userdata.db")
             cur = conn.cursor()
-            cur.execute("SELECT * FROM userdata WHERE username_client = ? AND password = ?", (username, password))
+            cur.execute("SELECT password, salt FROM userdata WHERE username_client = ?", (username,))
+            result = cur.fetchone()
 
-            if cur.fetchone():
-                if username == "admin":
-                    writer.write("Admin Login Successful!\n".encode('utf-8'))
-                    print("Admin Login Successful!")
+            if result:
+                stored_hashed_password = base64.b64decode(result[0])
+                salt = base64.b64decode(result[1])
+                hashed_password = scrypt(password.encode('utf-8'), salt, 32, N=2**14, r=8, p=1)
+
+                if stored_hashed_password == hashed_password:
+                    if username == "admin":
+                        writer.write("Admin Login Successful!\n".encode('utf-8'))
+                        print("Admin Login Successful!")
+                    else:
+                        writer.write("Login Successful!\n".encode('utf-8'))
+                        print("Login Successful!")
                 else:
-                    writer.write("Login Successful!\n".encode('utf-8'))
-                    print("Login Successful!")
+                    writer.write("Login Failed!\n".encode('utf-8'))
+                    print("Login Failed!")
             else:
                 writer.write("Login Failed!\n".encode('utf-8'))
                 print("Login Failed!")
@@ -122,8 +132,8 @@ class Server:
             username = username.decode('utf-8').strip()
             password = password.decode('utf-8').strip()
 
-            password = hashlib.sha256(password.encode('utf-8')).hexdigest()
-            print(f"Register Attempt From: {username}")
+            salt = get_random_bytes(16)
+            hashed_password = scrypt(password.encode('utf-8'), salt, 32, N=2**14, r=8, p=1)
 
             conn = sqlite3.connect("userdata.db")
             cur = conn.cursor()
@@ -132,7 +142,8 @@ class Server:
                 writer.write("Account already registered!\n".encode('utf-8'))
                 print("Account already registered!")
             else:
-                cur.execute("INSERT INTO userdata (username_client, password) VALUES (?, ?)", (username, password))
+                cur.execute("INSERT INTO userdata (username_client, password, salt) VALUES (?, ?, ?)", 
+                            (username, base64.b64encode(hashed_password).decode('utf-8'), base64.b64encode(salt).decode('utf-8')))
                 conn.commit()
                 writer.write("Register successful!\n".encode('utf-8'))
                 print("Register successful!")
