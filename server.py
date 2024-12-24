@@ -100,16 +100,17 @@ class Server:
 
             conn = sqlite3.connect("userdata.db")
             cur = conn.cursor()
-            cur.execute("SELECT password, salt FROM userdata WHERE username_client = ?", (username,))
+            cur.execute("SELECT password, salt, admin FROM userdata WHERE username_client = ?", (username,))
             result = cur.fetchone()
 
             if result:
                 stored_hashed_password = base64.b64decode(result[0])
                 salt = base64.b64decode(result[1])
                 hashed_password = scrypt(password.encode('utf-8'), salt, 32, N=2**14, r=8, p=1)
+                admin_status = result[2]
 
                 if stored_hashed_password == hashed_password:
-                    if username == "admin":
+                    if admin_status == 1:
                         writer.write("Admin Login Successful!\n".encode('utf-8'))
                         print("Admin Login Successful!")
                     else:
