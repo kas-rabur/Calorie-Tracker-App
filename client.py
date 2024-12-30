@@ -1,6 +1,7 @@
 from Crypto.Util import number
 import customtkinter as ctk
 import asyncio
+import ssl
 
 class LogInClient(ctk.CTk):
     def __init__(self, host, port):
@@ -12,10 +13,13 @@ class LogInClient(ctk.CTk):
         self.loop.run_until_complete(self.connect())
         self.clients = {}
 
-
     async def connect(self):
-        self.client = await asyncio.open_connection(self.host, self.port)
-        reader, writer = self.client
+        # Create SSL context
+        ssl_context = ssl.create_default_context(ssl.Purpose.SERVER_AUTH)
+        ssl_context.load_verify_locations('server.crt')  # Load the server's certificate
+
+        reader, writer = await asyncio.open_connection(self.host, self.port, ssl=ssl_context)
+        self.client = (reader, writer)
 
         self.prime = int((await reader.readline()).decode('utf-8').strip())
         self.base = int((await reader.readline()).decode('utf-8').strip())
@@ -27,10 +31,9 @@ class LogInClient(ctk.CTk):
         writer.write(f"{self.client_public_key}\n".encode('utf-8'))
         await writer.drain()
 
-        #shared secret key
+        # Shared secret key
         self.shared_key = pow(self.server_public_key, self.client_private_key, self.prime)
         print(f"Shared key: {self.shared_key}")
-
 
     async def login(self, choice):
         reader, writer = self.client
@@ -70,9 +73,6 @@ class LogInClient(ctk.CTk):
             elif message == "Login Successful!":
                 self.clients[(reader, writer)] = username
                 widgets.show_frame(widgets.tracker_frame)
-
-            # asyncio.create_task(app.heartbeat())
-
 
     async def register(self, choice):
         reader, writer = self.client
@@ -134,14 +134,6 @@ class LogInClient(ctk.CTk):
         widgets.view_box.insert("1.0", new_data) 
         widgets.view_box.configure(state='disabled')
 
-    # async def heartbeat(self):
-    #     while True:
-    #         await asyncio.sleep(5)
-    #         print("Sending heartbeat")
-    #         reader, writer = self.client
-    #         writer.write("HEARTBEAT\n".encode('utf-8'))
-    #         await writer.drain()
-            
     async def fetch_client_data(self, choice):
         reader, writer = self.client
         writer.write(f"{choice}\n".encode('utf-8'))
@@ -164,7 +156,6 @@ class LogInClient(ctk.CTk):
         calories = widgets.calories_in_food.get()
         username = self.clients[(reader, writer)]
 
-
         writer.write(f"{choice}\n".encode('utf-8'))
         await writer.drain()
         message = (await reader.readline()).decode('utf-8').strip()
@@ -180,7 +171,6 @@ class LogInClient(ctk.CTk):
         message = (await reader.readline()).decode('utf-8').strip()
         print(message)
         widgets.show_frame(widgets.tracker_frame)
-
 
 class Widgets(ctk.CTk):
     def __init__(self):

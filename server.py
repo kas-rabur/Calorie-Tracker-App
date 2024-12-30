@@ -6,6 +6,7 @@ from datetime import datetime
 from Crypto.Protocol.KDF import scrypt 
 from Crypto.Random import get_random_bytes 
 import base64
+import ssl
 
 class Server:
     def __init__(self):
@@ -17,7 +18,12 @@ class Server:
 
     async def start(self):
         print("Server started")
-        server = await asyncio.start_server(self.handle_client, self.host, self.port)
+
+        # Load SSL context
+        ssl_context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
+        ssl_context.load_cert_chain(certfile='server.crt', keyfile='server.key')
+
+        server = await asyncio.start_server(self.handle_client, self.host, self.port, ssl=ssl_context)
         async with server:
             await server.serve_forever()
 
@@ -40,7 +46,7 @@ class Server:
 
             await self.handle_main(reader, writer)
         except Exception as e:
-            print(f"Client {writer.get_extra_info('peername')} disconnected with error: {e}")
+            print(f"Client disconnected with error: {e}")
         finally:
             if writer in self.connected_clients:
                 self.connected_clients.remove(writer)
