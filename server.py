@@ -39,10 +39,11 @@ class Server:
             print(f"Shared key: {shared_key}")
 
             await self.handle_main(reader, writer)
-        except:
-            print(f"Client {writer.get_extra_info('peername')} disconnected")
+        except Exception as e:
+            print(f"Client {writer.get_extra_info('peername')} disconnected with error: {e}")
         finally:
-            self.connected_clients.remove(writer)
+            if writer in self.connected_clients:
+                self.connected_clients.remove(writer)
             writer.close()
             try: 
                 await writer.wait_closed() 
@@ -88,8 +89,8 @@ class Server:
         try:
             heartbeat = (await reader.readline()).decode('utf-8').strip()
             print(f"Heartbeat from {writer.get_extra_info('peername')}")
-        except:
-            pass
+        except Exception as e:
+            print(f"Heartbeat error: {e}")
 
     async def login(self, reader, writer):
         try:
@@ -123,6 +124,8 @@ class Server:
                 writer.write("Login Failed!\n".encode('utf-8'))
                 print("Login Failed!")
             conn.close()
+        except sqlite3.Error as db_error:
+            print(f"Database error during login: {db_error}")
         except Exception as e:
             print(f"An error occurred during login: {e}")
 
@@ -149,6 +152,8 @@ class Server:
                 writer.write("Register successful!\n".encode('utf-8'))
                 print("Register successful!")
             conn.close()
+        except sqlite3.Error as db_error:
+            print(f"Database error during registration: {db_error}")
         except Exception as e:
             print(f"An error occurred during registration: {e}")
 
@@ -167,6 +172,8 @@ class Server:
             print(data)
             writer.write(f"{data}\n".encode('utf-8'))
             await writer.drain()
+        except sqlite3.Error as db_error:
+            print(f"Database error while fetching food data: {db_error}")
         except Exception as e:
             print(f"An error occurred while fetching food data: {e}")
 
@@ -187,6 +194,8 @@ class Server:
             conn.close()
             writer.write("Food item added!\n".encode('utf-8'))
             await writer.drain()
+        except sqlite3.Error as db_error:
+            print(f"Database error while adding food item: {db_error}")
         except Exception as e:
             print(f"An error occurred while adding food item: {e}")
 
@@ -202,6 +211,8 @@ class Server:
 
             writer.write(f"{username_data}\n".encode('utf-8'))
             await writer.drain()
+        except sqlite3.Error as db_error:
+            print(f"Database error while fetching client data: {db_error}")
         except Exception as e:
             print(f"An error occurred while fetching client data: {e}")
 
