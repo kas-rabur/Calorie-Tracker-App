@@ -1,0 +1,77 @@
+Networking Requirements
+Synchronous bidirectional communication (N1)
+
+[x] Ensure server and client can send and receive messages synchronously.
+
+Connection and disconnection handling (N2)
+
+[x] Properly manage connections and disconnections without server-side errors.
+
+[x] Implement error handling for unexpected disconnections.
+
+Error handling and message content verification (N3, N5)
+
+[x] Implement server-side error handling and message verification.
+
+[x] Ensure client-side error handling and message verification.
+
+Support multiple clients (N4)
+
+[x] Verify server's ability to handle multiple concurrent client connections using asyncio.
+
+Asynchronous bidirectional communication (N6)
+
+[x] Ensure server and client can send and receive messages asynchronously.
+
+Shared state information (N7)
+
+[] Implement mechanisms to share state information between clients and the server.
+
+Layered network code (N8)
+
+[ ] Separate network code from application logic for modularity.
+
+Security Requirements
+Encrypted network traffic (S1, S2)
+
+[x] Use SSL/TLS for encrypted communication.
+
+[x] Implement Diffie-Hellman key exchange for secure key negotiation.
+
+Prevent attacks (S3)
+
+[x] Implement mechanisms to prevent SQL injections.
+
+AAA implementation (S4)
+
+[ ] Implement authentication (login), authorization (admin vs. regular users), and auditing (log user actions).
+
+Application Requirements
+Multiple states based on user input (A1)
+
+[x] Implement at least 2 states that alter system behavior based on user input (e.g., LOGIN, REGISTER).
+
+Complex state with persistent data (A2)
+
+[x] Implement a state that allows data to be stored between sessions (e.g., storing user and food data in a SQLite database).
+
+Complex state altering network communication (A3)
+
+[x] Implement a state that allows the client to send an arbitrary number of messages in a row.
+
+Additional Features
+Heartbeat mechanism (N9)
+
+[ ] Implement a heartbeat mechanism for maintaining connections.
+
+Data encryption on storage (S5)
+
+[x] Encrypt user data (e.g., passwords) before storing in the database.
+
+User password resets and account lockouts (S5, S6)
+
+[ ] Implement features for user password resets and account lockouts.
+
+Multiple additional features (N10, S6)
+
+[x] Implement multiple features, such as secure communication and encryption.
