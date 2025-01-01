@@ -12,6 +12,9 @@ class LogInClient(ctk.CTk):
         self.loop = asyncio.get_event_loop()
         self.loop.run_until_complete(self.connect())
         self.clients = {}
+        self.total_calories = 2000
+        self.calories_consumed = 0
+        self.calories_left = self.total_calories - self.calories_consumed
 
     async def connect(self):
         # Create SSL context
@@ -110,6 +113,7 @@ class LogInClient(ctk.CTk):
         reader, writer = self.client
         username = self.clients[(reader, writer)]
         print(f"username: {username}")
+        calories_now = 0
 
         writer.write(f"{choice}\n".encode('utf-8'))
         await writer.drain()
@@ -128,11 +132,17 @@ class LogInClient(ctk.CTk):
             entry = entry.replace("(", "").replace(")", "").replace("'", "").split(", ")
             date, name, calories = entry
             new_data += (f"{name}: {calories}\n")
+            calories_now += int(calories)
+
+        self.calories_consumed = calories_now
 
         widgets.view_box.configure(state='normal') 
         widgets.view_box.delete("1.0", "end") 
         widgets.view_box.insert("1.0", new_data) 
         widgets.view_box.configure(state='disabled')
+
+        widgets.totals_consumed.configure(text=f"Total Consumed: {self.calories_consumed}")
+        widgets.calories_left_label.configure(text=f"Calories left: {self.total_calories - self.calories_consumed}")
 
     async def fetch_client_data(self, choice):
         reader, writer = self.client
@@ -245,16 +255,16 @@ class Widgets(ctk.CTk):
         tracker_label_frame.pack(fill='x')  
         tracker_label = ctk.CTkLabel(tracker_label_frame, text="Calorie Tracker", font=("Helvetica", 16, "bold"))
         tracker_label.pack(pady=12, padx=10)
-        calories_left_label = ctk.CTkLabel(self.tracker_frame, text="Calories left: 2000")
-        calories_left_label.pack(anchor='w', padx=10)
-        totals_consumed = ctk.CTkLabel(self.tracker_frame, text="Total Consumed: ")
-        totals_consumed.pack(anchor='w', padx=10)
+        self.calories_left_label = ctk.CTkLabel(self.tracker_frame, text="Calories left: 2000")
+        self.calories_left_label.pack(anchor='w', padx=10)
+        self.totals_consumed = ctk.CTkLabel(self.tracker_frame, text="Total Consumed: ")
+        self.totals_consumed.pack(anchor='w', padx=10)
         self.view_box = ctk.CTkTextbox(self.tracker_frame, width=700, height=200)
         self.view_box.pack(pady=12, padx=10)
         self.view_box.configure(state='disabled')
         add_button = ctk.CTkButton(self.tracker_frame, text="Add Food Item", font=("Helvetica", 12, "bold"), command=lambda: self.show_frame(self.food_frame))
         add_button.pack(pady=12, padx=10)
-        view_button = ctk.CTkButton(self.tracker_frame, text="View Food Items", font=("Helvetica", 12, "bold"), command=lambda: app.loop.run_until_complete(app.fetch_food_data("FETCH_FOOD_DATA")))
+        view_button = ctk.CTkButton(self.tracker_frame, text="Update", font=("Helvetica", 12, "bold"), command=lambda: app.loop.run_until_complete(app.fetch_food_data("FETCH_FOOD_DATA")))
         view_button.pack(pady=12, padx=10)
         entry_field = ctk.CTkEntry(self.tracker_frame, placeholder_text="Message here")
         entry_field.pack(pady=12, padx=10)
