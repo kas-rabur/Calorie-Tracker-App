@@ -1,0 +1,224 @@
+2025-01-02 14:02:55,109 - INFO - Server started
+2025-01-02 14:03:01,082 - INFO - New client connected: ('127.0.0.1', 54096)
+2025-01-02 14:03:01,082 - INFO - Shared key established with ('127.0.0.1', 54096): 23214053402471045104794665394161542898775602431602541326298945757612634995275
+2025-01-02 14:03:06,169 - INFO - Received choice from ('127.0.0.1', 54096): LOGIN
+2025-01-02 14:03:06,169 - INFO - Login attempt for username: admin
+2025-01-02 14:03:06,215 - INFO - Admin Login Successful for username: admin
+2025-01-02 14:03:08,818 - INFO - Received choice from ('127.0.0.1', 54096): FETCH_CLIENT_DATA
+2025-01-02 14:03:08,818 - INFO - Fetching client data
+2025-01-02 14:03:08,819 - INFO - Client data fetched: [('admin',), ('kas',)]
+2025-01-02 14:03:15,855 - ERROR - An error occurred: [WinError 64] The specified network name is no longer available
+2025-01-02 14:03:15,856 - INFO - Disconnected: ('127.0.0.1', 54096)
+2025-01-02 14:03:15,856 - ERROR - Client disconnected with error: [WinError 64] The specified network name is no longer available
+2025-01-02 14:03:15,856 - ERROR - Client forcibly closed the connection
+2025-01-02 14:11:20,953 - INFO - Server started
+2025-01-02 14:11:23,905 - INFO - New client connected: ('127.0.0.1', 54143)
+2025-01-02 14:11:23,905 - INFO - Shared key established with ('127.0.0.1', 54143): 22480465419041426639457460463262367791303452088507338151747870370545048813475
+2025-01-02 14:11:30,522 - INFO - Received choice from ('127.0.0.1', 54143): LOGIN
+2025-01-02 14:11:30,523 - INFO - Login attempt for username: admin
+2025-01-02 14:11:30,553 - INFO - Admin Login Successful for username: admin
+2025-01-02 14:11:31,533 - INFO - Received choice from ('127.0.0.1', 54143): FETCH_LOGGING_INFO
+2025-01-02 14:11:31,533 - INFO - Fetching recent logs
+2025-01-02 14:11:31,540 - INFO - Recent logs fetched
+2025-01-02 14:11:37,723 - INFO - Received choice from ('127.0.0.1', 54143): FETCH_LOGGING_INFO
+2025-01-02 14:11:37,723 - INFO - Fetching recent logs
+2025-01-02 14:11:37,729 - INFO - Recent logs fetched
+2025-01-02 14:11:40,727 - INFO - Received choice from ('127.0.0.1', 54143): FETCH_LOGGING_INFO
+2025-01-02 14:11:40,727 - INFO - Fetching recent logs
+2025-01-02 14:11:40,733 - INFO - Recent logs fetched
+2025-01-02 14:11:41,814 - INFO - Received choice from ('127.0.0.1', 54143): FETCH_LOGGING_INFO
+2025-01-02 14:11:41,814 - INFO - Fetching recent logs
+2025-01-02 14:11:41,821 - INFO - Recent logs fetched
+2025-01-02 14:11:42,718 - INFO - Received choice from ('127.0.0.1', 54143): FETCH_LOGGING_INFO
+2025-01-02 14:11:42,718 - INFO - Fetching recent logs
+2025-01-02 14:11:42,725 - INFO - Recent logs fetched
+2025-01-02 14:11:43,967 - INFO - Received choice from ('127.0.0.1', 54143): FETCH_LOGGING_INFO
+2025-01-02 14:11:43,967 - INFO - Fetching recent logs
+2025-01-02 14:11:43,976 - INFO - Recent logs fetched
+2025-01-02 14:11:46,907 - INFO - Received choice from ('127.0.0.1', 54143): FETCH_LOGGING_INFO
+2025-01-02 14:11:46,907 - INFO - Fetching recent logs
+2025-01-02 14:11:46,914 - INFO - Recent logs fetched
+2025-01-02 14:11:47,300 - INFO - Received choice from ('127.0.0.1', 54143): FETCH_LOGGING_INFO
+2025-01-02 14:11:47,301 - INFO - Fetching recent logs
+2025-01-02 14:11:47,307 - INFO - Recent logs fetched
+2025-01-02 14:11:47,743 - INFO - Received choice from ('127.0.0.1', 54143): FETCH_LOGGING_INFO
+2025-01-02 14:11:47,743 - INFO - Fetching recent logs
+2025-01-02 14:11:47,749 - INFO - Recent logs fetched
+2025-01-02 14:11:48,066 - INFO - Received choice from ('127.0.0.1', 54143): FETCH_LOGGING_INFO
+2025-01-02 14:11:48,066 - INFO - Fetching recent logs
+2025-01-02 14:11:48,072 - INFO - Recent logs fetched
+2025-01-02 14:11:48,356 - INFO - Received choice from ('127.0.0.1', 54143): FETCH_LOGGING_INFO
+2025-01-02 14:11:48,356 - INFO - Fetching recent logs
+2025-01-02 14:11:48,362 - INFO - Recent logs fetched
+2025-01-02 14:11:48,584 - INFO - Received choice from ('127.0.0.1', 54143): FETCH_LOGGING_INFO
+2025-01-02 14:11:48,584 - INFO - Fetching recent logs
+2025-01-02 14:11:48,590 - INFO - Recent logs fetched
+2025-01-02 14:11:56,516 - ERROR - An error occurred: [WinError 64] The specified network name is no longer available
+2025-01-02 14:11:56,516 - INFO - Disconnected: ('127.0.0.1', 54143)
+2025-01-02 14:11:56,516 - ERROR - Client disconnected with error: [WinError 64] The specified network name is no longer available
+2025-01-02 14:11:56,516 - ERROR - Client forcibly closed the connection
+2025-01-02 14:13:44,562 - INFO - Server started
+2025-01-02 14:13:46,878 - INFO - New client connected: ('127.0.0.1', 54162)
+2025-01-02 14:13:46,878 - INFO - Shared key established with ('127.0.0.1', 54162): 78806402634602031856099534929398647603404789599487131262003406773976808920028
+2025-01-02 14:13:55,034 - INFO - Received choice from ('127.0.0.1', 54162): LOGIN
+2025-01-02 14:13:55,035 - INFO - Login attempt for username: admin
+2025-01-02 14:13:55,065 - INFO - Admin Login Successful for username: admin
+2025-01-02 14:13:55,989 - INFO - Received choice from ('127.0.0.1', 54162): FETCH_LOGGING_INFO
+2025-01-02 14:13:55,989 - INFO - Fetching recent logs
+2025-01-02 14:13:55,996 - INFO - Recent logs fetched
+2025-01-02 14:13:56,985 - INFO - Received choice from ('127.0.0.1', 54162): FETCH_LOGGING_INFO
+2025-01-02 14:13:56,985 - INFO - Fetching recent logs
+2025-01-02 14:13:56,992 - INFO - Recent logs fetched
+2025-01-02 14:13:57,660 - INFO - Received choice from ('127.0.0.1', 54162): FETCH_LOGGING_INFO
+2025-01-02 14:13:57,660 - INFO - Fetching recent logs
+2025-01-02 14:13:57,667 - INFO - Recent logs fetched
+2025-01-02 14:13:58,548 - INFO - Received choice from ('127.0.0.1', 54162): FETCH_LOGGING_INFO
+2025-01-02 14:13:58,549 - INFO - Fetching recent logs
+2025-01-02 14:13:58,555 - INFO - Recent logs fetched
+2025-01-02 14:14:00,006 - INFO - Received choice from ('127.0.0.1', 54162): FETCH_LOGGING_INFO
+2025-01-02 14:14:00,006 - INFO - Fetching recent logs
+2025-01-02 14:14:00,013 - INFO - Recent logs fetched
+2025-01-02 14:14:00,952 - INFO - Received choice from ('127.0.0.1', 54162): FETCH_LOGGING_INFO
+2025-01-02 14:14:00,952 - INFO - Fetching recent logs
+2025-01-02 14:14:00,959 - INFO - Recent logs fetched
+2025-01-02 14:14:01,627 - INFO - Received choice from ('127.0.0.1', 54162): FETCH_LOGGING_INFO
+2025-01-02 14:14:01,628 - INFO - Fetching recent logs
+2025-01-02 14:14:01,634 - INFO - Recent logs fetched
+2025-01-02 14:14:01,794 - INFO - Received choice from ('127.0.0.1', 54162): FETCH_LOGGING_INFO
+2025-01-02 14:14:01,794 - INFO - Fetching recent logs
+2025-01-02 14:14:01,800 - INFO - Recent logs fetched
+2025-01-02 14:14:01,947 - INFO - Received choice from ('127.0.0.1', 54162): FETCH_LOGGING_INFO
+2025-01-02 14:14:01,947 - INFO - Fetching recent logs
+2025-01-02 14:14:01,952 - INFO - Recent logs fetched
+2025-01-02 14:14:02,083 - INFO - Received choice from ('127.0.0.1', 54162): FETCH_LOGGING_INFO
+2025-01-02 14:14:02,084 - INFO - Fetching recent logs
+2025-01-02 14:14:02,090 - INFO - Recent logs fetched
+2025-01-02 14:14:02,233 - INFO - Received choice from ('127.0.0.1', 54162): FETCH_LOGGING_INFO
+2025-01-02 14:14:02,233 - INFO - Fetching recent logs
+2025-01-02 14:14:02,239 - INFO - Recent logs fetched
+2025-01-02 14:14:02,347 - INFO - Received choice from ('127.0.0.1', 54162): FETCH_LOGGING_INFO
+2025-01-02 14:14:02,348 - INFO - Fetching recent logs
+2025-01-02 14:14:02,353 - INFO - Recent logs fetched
+2025-01-02 14:14:02,483 - INFO - Received choice from ('127.0.0.1', 54162): FETCH_LOGGING_INFO
+2025-01-02 14:14:02,484 - INFO - Fetching recent logs
+2025-01-02 14:14:02,489 - INFO - Recent logs fetched
+2025-01-02 14:14:02,617 - INFO - Received choice from ('127.0.0.1', 54162): FETCH_LOGGING_INFO
+2025-01-02 14:14:02,617 - INFO - Fetching recent logs
+2025-01-02 14:14:02,624 - INFO - Recent logs fetched
+2025-01-02 14:14:02,872 - INFO - Received choice from ('127.0.0.1', 54162): FETCH_LOGGING_INFO
+2025-01-02 14:14:02,872 - INFO - Fetching recent logs
+2025-01-02 14:14:02,878 - INFO - Recent logs fetched
+2025-01-02 14:14:03,033 - INFO - Received choice from ('127.0.0.1', 54162): FETCH_LOGGING_INFO
+2025-01-02 14:14:03,033 - INFO - Fetching recent logs
+2025-01-02 14:14:03,038 - INFO - Recent logs fetched
+2025-01-02 14:14:03,192 - INFO - Received choice from ('127.0.0.1', 54162): FETCH_LOGGING_INFO
+2025-01-02 14:14:03,192 - INFO - Fetching recent logs
+2025-01-02 14:14:03,197 - INFO - Recent logs fetched
+2025-01-02 14:14:03,344 - INFO - Received choice from ('127.0.0.1', 54162): FETCH_LOGGING_INFO
+2025-01-02 14:14:03,344 - INFO - Fetching recent logs
+2025-01-02 14:14:03,350 - INFO - Recent logs fetched
+2025-01-02 14:14:03,481 - INFO - Received choice from ('127.0.0.1', 54162): FETCH_LOGGING_INFO
+2025-01-02 14:14:03,481 - INFO - Fetching recent logs
+2025-01-02 14:14:03,487 - INFO - Recent logs fetched
+2025-01-02 14:14:03,612 - INFO - Received choice from ('127.0.0.1', 54162): FETCH_LOGGING_INFO
+2025-01-02 14:14:03,613 - INFO - Fetching recent logs
+2025-01-02 14:14:03,619 - INFO - Recent logs fetched
+2025-01-02 14:14:03,749 - INFO - Received choice from ('127.0.0.1', 54162): FETCH_LOGGING_INFO
+2025-01-02 14:14:03,749 - INFO - Fetching recent logs
+2025-01-02 14:14:03,755 - INFO - Recent logs fetched
+2025-01-02 14:14:03,880 - INFO - Received choice from ('127.0.0.1', 54162): FETCH_LOGGING_INFO
+2025-01-02 14:14:03,881 - INFO - Fetching recent logs
+2025-01-02 14:14:03,887 - INFO - Recent logs fetched
+2025-01-02 14:14:04,022 - INFO - Received choice from ('127.0.0.1', 54162): FETCH_LOGGING_INFO
+2025-01-02 14:14:04,023 - INFO - Fetching recent logs
+2025-01-02 14:14:04,028 - INFO - Recent logs fetched
+2025-01-02 14:14:04,146 - INFO - Received choice from ('127.0.0.1', 54162): FETCH_LOGGING_INFO
+2025-01-02 14:14:04,147 - INFO - Fetching recent logs
+2025-01-02 14:14:04,152 - INFO - Recent logs fetched
+2025-01-02 14:14:04,291 - INFO - Received choice from ('127.0.0.1', 54162): FETCH_LOGGING_INFO
+2025-01-02 14:14:04,292 - INFO - Fetching recent logs
+2025-01-02 14:14:04,298 - INFO - Recent logs fetched
+2025-01-02 14:14:04,421 - INFO - Received choice from ('127.0.0.1', 54162): FETCH_LOGGING_INFO
+2025-01-02 14:14:04,421 - INFO - Fetching recent logs
+2025-01-02 14:14:04,428 - INFO - Recent logs fetched
+2025-01-02 14:14:04,550 - INFO - Received choice from ('127.0.0.1', 54162): FETCH_LOGGING_INFO
+2025-01-02 14:14:04,551 - INFO - Fetching recent logs
+2025-01-02 14:14:04,556 - INFO - Recent logs fetched
+2025-01-02 14:14:04,691 - INFO - Received choice from ('127.0.0.1', 54162): FETCH_LOGGING_INFO
+2025-01-02 14:14:04,692 - INFO - Fetching recent logs
+2025-01-02 14:14:04,699 - INFO - Recent logs fetched
+2025-01-02 14:14:04,805 - INFO - Received choice from ('127.0.0.1', 54162): FETCH_LOGGING_INFO
+2025-01-02 14:14:04,805 - INFO - Fetching recent logs
+2025-01-02 14:14:04,811 - INFO - Recent logs fetched
+2025-01-02 14:14:04,954 - INFO - Received choice from ('127.0.0.1', 54162): FETCH_LOGGING_INFO
+2025-01-02 14:14:04,954 - INFO - Fetching recent logs
+2025-01-02 14:14:04,960 - INFO - Recent logs fetched
+2025-01-02 14:14:05,091 - INFO - Received choice from ('127.0.0.1', 54162): FETCH_LOGGING_INFO
+2025-01-02 14:14:05,091 - INFO - Fetching recent logs
+2025-01-02 14:14:05,097 - INFO - Recent logs fetched
+2025-01-02 14:14:05,252 - INFO - Received choice from ('127.0.0.1', 54162): FETCH_LOGGING_INFO
+2025-01-02 14:14:05,253 - INFO - Fetching recent logs
+2025-01-02 14:14:05,260 - INFO - Recent logs fetched
+2025-01-02 14:14:05,725 - INFO - Received choice from ('127.0.0.1', 54162): FETCH_LOGGING_INFO
+2025-01-02 14:14:05,725 - INFO - Fetching recent logs
+2025-01-02 14:14:05,731 - INFO - Recent logs fetched
+2025-01-02 14:16:30,112 - ERROR - An error occurred: [WinError 64] The specified network name is no longer available
+2025-01-02 14:16:30,112 - INFO - Disconnected: ('127.0.0.1', 54162)
+2025-01-02 14:16:30,112 - ERROR - Client disconnected with error: [WinError 64] The specified network name is no longer available
+2025-01-02 14:16:30,112 - ERROR - Client forcibly closed the connection
+2025-01-02 14:16:33,560 - INFO - Server started
+2025-01-02 14:16:35,788 - INFO - New client connected: ('127.0.0.1', 54181)
+2025-01-02 14:16:35,789 - INFO - Shared key established with ('127.0.0.1', 54181): 93098333217221664123822339145661969189473356918404788665684812798767876380148
+2025-01-02 14:16:41,038 - INFO - Received choice from ('127.0.0.1', 54181): LOGIN
+2025-01-02 14:16:41,039 - INFO - Login attempt for username: admin
+2025-01-02 14:16:41,069 - INFO - Admin Login Successful for username: admin
+2025-01-02 14:16:41,712 - INFO - Received choice from ('127.0.0.1', 54181): FETCH_LOGGING_INFO
+2025-01-02 14:16:41,712 - INFO - Fetching recent logs
+2025-01-02 14:16:41,720 - INFO - Recent logs fetched
+2025-01-02 14:16:54,347 - ERROR - An error occurred: [WinError 64] The specified network name is no longer available
+2025-01-02 14:16:54,347 - INFO - Disconnected: ('127.0.0.1', 54181)
+2025-01-02 14:16:54,347 - ERROR - Client disconnected with error: [WinError 64] The specified network name is no longer available
+2025-01-02 14:16:54,347 - ERROR - Client forcibly closed the connection
+2025-01-02 14:17:25,440 - INFO - Server started
+2025-01-02 14:17:27,581 - INFO - New client connected: ('127.0.0.1', 54194)
+2025-01-02 14:17:27,582 - INFO - Shared key established with ('127.0.0.1', 54194): 59594439712517815035688465995684261018355818337854448026747653459018910633943
+2025-01-02 14:17:32,615 - INFO - Received choice from ('127.0.0.1', 54194): LOGIN
+2025-01-02 14:17:32,615 - INFO - Login attempt for username: admin
+2025-01-02 14:17:32,646 - INFO - Admin Login Successful for username: admin
+2025-01-02 14:17:33,443 - INFO - Received choice from ('127.0.0.1', 54194): FETCH_LOGGING_INFO
+2025-01-02 14:17:33,443 - INFO - Fetching recent logs
+2025-01-02 14:17:33,450 - INFO - Recent logs fetched
+2025-01-02 14:17:44,275 - ERROR - An error occurred: [WinError 64] The specified network name is no longer available
+2025-01-02 14:17:44,275 - INFO - Disconnected: ('127.0.0.1', 54194)
+2025-01-02 14:17:44,275 - ERROR - Client disconnected with error: [WinError 64] The specified network name is no longer available
+2025-01-02 14:17:44,275 - ERROR - Client forcibly closed the connection
+2025-01-02 14:18:56,713 - INFO - New client connected: ('127.0.0.1', 54204)
+2025-01-02 14:18:56,713 - INFO - Shared key established with ('127.0.0.1', 54204): 19787217111887607417817133979875182602364090698410502942791356081301420670812
+2025-01-02 14:19:01,306 - INFO - Received choice from ('127.0.0.1', 54204): LOGIN
+2025-01-02 14:19:01,306 - INFO - Login attempt for username: admin
+2025-01-02 14:19:01,337 - INFO - Admin Login Successful for username: admin
+2025-01-02 14:19:02,300 - INFO - Received choice from ('127.0.0.1', 54204): FETCH_LOGGING_INFO
+2025-01-02 14:19:02,300 - INFO - Fetching recent logs
+2025-01-02 14:19:02,308 - INFO - Recent logs fetched
+2025-01-02 14:19:32,902 - ERROR - An error occurred: [WinError 64] The specified network name is no longer available
+2025-01-02 14:19:32,902 - INFO - Disconnected: ('127.0.0.1', 54204)
+2025-01-02 14:19:32,902 - ERROR - Client disconnected with error: [WinError 64] The specified network name is no longer available
+2025-01-02 14:19:32,902 - ERROR - Client forcibly closed the connection
+2025-01-02 14:19:35,730 - INFO - New client connected: ('127.0.0.1', 54210)
+2025-01-02 14:19:35,730 - INFO - Shared key established with ('127.0.0.1', 54210): 35566612818319971336446586826375907073122642742441827211149374162653157539739
+2025-01-02 14:19:40,458 - INFO - Received choice from ('127.0.0.1', 54210): LOGIN
+2025-01-02 14:19:40,459 - INFO - Login attempt for username: admin
+2025-01-02 14:19:40,488 - INFO - Admin Login Successful for username: admin
+2025-01-02 14:19:41,388 - INFO - Received choice from ('127.0.0.1', 54210): FETCH_LOGGING_INFO
+2025-01-02 14:19:41,388 - INFO - Fetching recent logs
+2025-01-02 14:19:41,396 - INFO - Recent logs fetched
+2025-01-02 14:19:44,851 - INFO - Received choice from ('127.0.0.1', 54210): FETCH_CLIENT_DATA
+2025-01-02 14:19:44,851 - INFO - Fetching client data
+2025-01-02 14:19:44,851 - INFO - Client data fetched: [('admin',), ('kas',)]
+2025-01-02 14:19:46,077 - INFO - Received choice from ('127.0.0.1', 54210): FETCH_LOGGING_INFO
+2025-01-02 14:19:46,077 - INFO - Fetching recent logs
+2025-01-02 14:19:46,085 - INFO - Recent logs fetched
+2025-01-02 14:19:55,043 - ERROR - An error occurred: [WinError 64] The specified network name is no longer available
+2025-01-02 14:19:55,043 - INFO - Disconnected: ('127.0.0.1', 54210)
+2025-01-02 14:19:55,043 - ERROR - Client disconnected with error: [WinError 64] The specified network name is no longer available
+2025-01-02 14:19:55,043 - ERROR - Client forcibly closed the connection

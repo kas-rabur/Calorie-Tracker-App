@@ -160,6 +160,28 @@ class LogInClient(ctk.CTk):
         widgets.admin_view_box.insert("1.0", client_data) 
         widgets.admin_view_box.configure(state='disabled')
 
+    async def fetch_logging_info(self, choice):
+        reader, writer = self.client
+        writer.write(f"{choice}\n".encode('utf-8'))
+        await writer.drain()
+
+        message = (await reader.readline()).decode('utf-8').strip()
+        print(message)  
+        
+        logging_info = "" 
+        count = 0
+        while count < 10: 
+            count += 1
+            line = (await reader.readline()).decode('utf-8').strip() 
+            if line == "": 
+                break 
+            logging_info += line + "\n"
+    
+        widgets.admin_view_box.configure(state='normal')
+        widgets.admin_view_box.delete("1.0", "end")
+        widgets.admin_view_box.insert("1.0", logging_info)
+        widgets.admin_view_box.configure(state='disabled')
+
     async def add_food_item(self, choice):
         reader, writer = self.client
         food_item = widgets.food_item_name.get()
@@ -298,7 +320,7 @@ class Widgets(ctk.CTk):
         admin_view_button = ctk.CTkButton(self.admin_frame, text="View client list", font=("Helvetica", 12, "bold"), command=lambda: app.loop.run_until_complete(app.fetch_client_data("FETCH_CLIENT_DATA")))
         admin_view_button.pack(pady=12, padx=10)
 
-        admin_add_client = ctk.CTkButton(self.admin_frame, text="View client list", font=("Helvetica", 12, "bold"))
+        admin_add_client = ctk.CTkButton(self.admin_frame, text="View Recent Logs", font=("Helvetica", 12, "bold"), command=lambda: app.loop.run_until_complete(app.fetch_logging_info("FETCH_LOGGING_INFO")))
         admin_add_client.pack(pady=12, padx=10)
 
         self.login_frame.tkraise()
