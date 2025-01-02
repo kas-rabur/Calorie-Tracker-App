@@ -29,7 +29,7 @@ Shared state information (N7)
 
 Layered network code (N8)
 
-[ ] Separate network code from application logic for modularity.
+[x] Separate network code from application logic for modularity.
 
 Security Requirements
 Encrypted network traffic (S1, S2)
@@ -44,7 +44,7 @@ Prevent attacks (S3)
 
 AAA implementation (S4)
 
-[ ] Implement authentication (login), authorization (admin vs. regular users), and auditing (log user actions).
+[x] Implement authentication (login), authorization (admin vs. regular users), and auditing (log user actions).
 
 Application Requirements
 Multiple states based on user input (A1)
@@ -75,3 +75,15 @@ User password resets and account lockouts (S5, S6)
 Multiple additional features (N10, S6)
 
 [x] Implement multiple features, such as secure communication and encryption.
+
+Additional features
+
+[x] adding food 
+
+[x] viewing food from current day
+
+[x] total calories and calories left
+
+[x] admin view client list
+
+[x] admin view recent logs
