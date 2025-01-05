@@ -222,3 +222,60 @@
 2025-01-02 14:19:55,043 - INFO - Disconnected: ('127.0.0.1', 54210)
 2025-01-02 14:19:55,043 - ERROR - Client disconnected with error: [WinError 64] The specified network name is no longer available
 2025-01-02 14:19:55,043 - ERROR - Client forcibly closed the connection
+2025-01-04 17:38:58,407 - INFO - Server started
+2025-01-04 17:39:01,787 - INFO - New client connected: ('127.0.0.1', 50496)
+2025-01-04 17:39:01,788 - INFO - Shared key established with ('127.0.0.1', 50496): 26728118067790969950812232150071281308907796134843347469982068989362372888308
+2025-01-04 17:39:14,043 - INFO - Received choice from ('127.0.0.1', 50496): LOGIN
+2025-01-04 17:39:14,044 - INFO - Login attempt for username: kas
+2025-01-04 17:39:14,093 - INFO - Login Successful for username: kas
+2025-01-04 17:39:45,851 - INFO - Received choice from ('127.0.0.1', 50496): FETCH_FOOD_DATA
+2025-01-04 17:39:45,851 - INFO - Fetching food data for username: kas
+2025-01-04 17:39:45,852 - INFO - Food data fetched for username kas: []
+2025-01-04 17:50:46,425 - ERROR - An error occurred: [WinError 64] The specified network name is no longer available
+2025-01-04 17:50:46,425 - INFO - Disconnected: ('127.0.0.1', 50496)
+2025-01-04 17:50:46,425 - ERROR - Client disconnected with error: [WinError 64] The specified network name is no longer available
+2025-01-04 17:50:46,426 - ERROR - Client forcibly closed the connection
+2025-01-05 15:55:17,145 - INFO - Server started
+2025-01-05 15:58:57,380 - INFO - New client connected: ('127.0.0.1', 53293)
+2025-01-05 15:58:57,381 - INFO - Shared key established with ('127.0.0.1', 53293): 36646740252744117154808556509001205967110989856858366632295707846802727114397
+2025-01-05 15:59:05,508 - INFO - Received choice from ('127.0.0.1', 53293): REGISTER
+2025-01-05 15:59:05,508 - INFO - Register attempt for username: test
+2025-01-05 15:59:05,565 - INFO - Register successful for username: test
+2025-01-05 15:59:11,485 - INFO - Received choice from ('127.0.0.1', 53293): LOGIN
+2025-01-05 15:59:11,485 - INFO - Login attempt for username: test
+2025-01-05 15:59:11,517 - WARNING - Login Failed for username: test
+2025-01-05 15:59:14,344 - INFO - Received choice from ('127.0.0.1', 53293): LOGIN
+2025-01-05 15:59:14,344 - INFO - Login attempt for username: test
+2025-01-05 15:59:14,374 - WARNING - Login Failed for username: test
+2025-01-05 15:59:15,176 - INFO - Received choice from ('127.0.0.1', 53293): LOGIN
+2025-01-05 15:59:15,177 - INFO - Login attempt for username: test
+2025-01-05 15:59:15,208 - WARNING - Login Failed for username: test
+2025-01-05 15:59:15,970 - INFO - Received choice from ('127.0.0.1', 53293): LOGIN
+2025-01-05 15:59:15,971 - INFO - Login attempt for username: test
+2025-01-05 15:59:16,002 - WARNING - Login Failed for username: test
+2025-01-05 15:59:19,267 - INFO - Received choice from ('127.0.0.1', 53293): LOGIN
+2025-01-05 15:59:19,267 - INFO - Login attempt for username: test
+2025-01-05 15:59:19,297 - WARNING - Login Attempts Exceeded for username: test
+2025-01-05 15:59:19,299 - WARNING - user login blocked for: test
+2025-01-05 15:59:34,184 - INFO - Received choice from ('127.0.0.1', 53293): LOGIN
+2025-01-05 15:59:34,184 - INFO - Login attempt for username: test
+2025-01-05 15:59:34,215 - WARNING - Login Attempts Exceeded for username: test
+2025-01-05 15:59:34,216 - WARNING - user login blocked for: test
+2025-01-05 15:59:39,820 - INFO - Received choice from ('127.0.0.1', 53293): LOGIN
+2025-01-05 15:59:39,821 - INFO - Login attempt for username: test
+2025-01-05 15:59:39,852 - WARNING - Login Attempts Exceeded for username: test
+2025-01-05 15:59:39,853 - WARNING - user login blocked for: test
+2025-01-05 15:59:43,599 - ERROR - An error occurred: [WinError 64] The specified network name is no longer available
+2025-01-05 15:59:43,599 - INFO - Disconnected: ('127.0.0.1', 53293)
+2025-01-05 15:59:43,599 - ERROR - Client disconnected with error: [WinError 64] The specified network name is no longer available
+2025-01-05 15:59:43,603 - ERROR - Client forcibly closed the connection
+2025-01-05 16:02:01,069 - INFO - Server started
+2025-01-05 16:02:02,996 - INFO - New client connected: ('127.0.0.1', 53339)
+2025-01-05 16:02:02,997 - INFO - Shared key established with ('127.0.0.1', 53339): 6634214767620328111350619555398612508023494645293146020607063775764898851090
+2025-01-05 16:02:08,115 - INFO - Received choice from ('127.0.0.1', 53339): LOGIN
+2025-01-05 16:02:08,115 - INFO - Login attempt for username: kas
+2025-01-05 16:02:08,147 - INFO - Login Successful for username: kas
+2025-01-05 16:02:17,589 - ERROR - An error occurred: [WinError 64] The specified network name is no longer available
+2025-01-05 16:02:17,589 - INFO - Disconnected: ('127.0.0.1', 53339)
+2025-01-05 16:02:17,589 - ERROR - Client disconnected with error: [WinError 64] The specified network name is no longer available
+2025-01-05 16:02:17,590 - ERROR - Client forcibly closed the connection

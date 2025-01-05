@@ -1,63 +1,63 @@
-Networking Requirements
+Networking Requirements 
 Synchronous bidirectional communication (N1)
 
-[x] Ensure server and client can send and receive messages synchronously.
+[x] Ensure server and client can send and receive messages synchronously. : line 36 onwards, reader.readline() and writer.write()
 
-Connection and disconnection handling (N2)
+Connection and disconnection handling (N2) 
 
-[x] Properly manage connections and disconnections without server-side errors.
+[x] Properly manage connections and disconnections without server-side errors. line 56 and line 99, both in handle main and handle client, show client disconnecting and server keeps running
 
-[x] Implement error handling for unexpected disconnections.
+[x] Implement error handling for unexpected disconnections. line 56, except and finally
 
 Error handling and message content verification (N3, N5)
 
-[x] Implement server-side error handling and message verification.
+[x] Implement server-side error handling and message verification.  line 115 try and except incase of DB error 
 
-[x] Ensure client-side error handling and message verification.
+[x] Ensure client-side error handling and message verification. line 46 if username or password field empty
 
 Support multiple clients (N4)
 
-[x] Verify server's ability to handle multiple concurrent client connections using asyncio.
+[x] Verify server's ability to handle multiple concurrent client connections using asyncio. show multiple clients connecting together
 
 Asynchronous bidirectional communication (N6)
 
-[x] Ensure server and client can send and receive messages asynchronously.
+[x] Ensure server and client can send and receive messages asynchronously. using asyncio  line 77 await keyword used throughout
 
 Shared state information (N7)
 
-[] Implement mechanisms to share state information between clients and the server.
+[x] Implement mechanisms to share state information between clients and the server. line 52 key exchange as well as shared secret key
 
 Layered network code (N8)
 
-[x] Separate network code from application logic for modularity.
+[x] Separate network code from application logic for modularity. line 207 seperate class for widgets, UI
 
 Security Requirements
 Encrypted network traffic (S1, S2)
 
-[x] Use SSL/TLS for encrypted communication.
+[x] Use SSL/TLS for encrypted communication. line 24 establishing connection with ssl and 29 showing ssl context as well as show server.crt, server.key
 
-[x] Implement Diffie-Hellman key exchange for secure key negotiation.
+[x] Implement Diffie-Hellman key exchange for secure key negotiation. line 36 onwards
 
 Prevent attacks (S3)
 
-[x] Implement mechanisms to prevent SQL injections.
+[x] Implement mechanisms to prevent SQL injections. line 125 paramaterised queries
 
 AAA implementation (S4)
 
-[x] Implement authentication (login), authorization (admin vs. regular users), and auditing (log user actions).
+[x] Implement authentication (login), authorization (admin vs. regular users), and auditing (log user actions). login and register system, admin login and ability to view logs and users, logging of key events seen throughout
 
 Application Requirements
 Multiple states based on user input (A1)
 
-[x] Implement at least 2 states that alter system behavior based on user input (e.g., LOGIN, REGISTER).
+[x] Implement at least 2 states that alter system behavior based on user input (e.g., LOGIN, REGISTER). login and register, as well as any in handle_main()
 
 Complex state with persistent data (A2)
 
-[x] Implement a state that allows data to be stored between sessions (e.g., storing user and food data in a SQLite database).
+[x] Implement a state that allows data to be stored between sessions (e.g., storing user and food data in a SQLite database). storing user food in sqlite databse, update button shows food logged from current day, but data from previous days is still kept on database
 
 Complex state altering network communication (A3)
 
-[x] Implement a state that allows the client to send an arbitrary number of messages in a row.
+[x] Implement a state that allows the client to send an arbitrary number of messages in a row. handle_main function
 
 Additional Features
 Heartbeat mechanism (N9)
@@ -66,11 +66,11 @@ Heartbeat mechanism (N9)
 
 Data encryption on storage (S5)
 
-[x] Encrypt user data (e.g., passwords) before storing in the database.
+[x] Encrypt user data (e.g., passwords) before storing in the database. scrypt key derivation function using salt
 
 User password resets and account lockouts (S5, S6)
 
-[ ] Implement features for user password resets and account lockouts.
+[x] Implement features for user password resets and account lockouts. 4 login attempts, then account is locked out in log in function
 
 Multiple additional features (N10, S6)
 

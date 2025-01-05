@@ -20,6 +20,7 @@ class Server:
         self.prime = number.getPrime(256)
         self.base = 2
         self.connected_clients = []
+        self.login_attempts = 0
 
     async def start(self):
         logging.info("Server started")
@@ -43,7 +44,7 @@ class Server:
             writer.write(str(self.prime).encode('utf-8') + b'\n')
             writer.write(str(self.base).encode('utf-8') + b'\n')
             writer.write(str(server_public_key).encode('utf-8') + b'\n')
-            await writer.drain()
+            await writer.drain() 
 
             data = await reader.readline()
             client_public_key = int(data.decode('utf-8').strip())
@@ -51,7 +52,7 @@ class Server:
             shared_key = pow(client_public_key, server_private_key, self.prime)
             logging.info(f"Shared key established with {addr}: {shared_key}")
 
-            await self.handle_main(reader, writer)
+            await self.handle_main(reader, writer) # Handle the main client communication
         except Exception as e:
             logging.error(f"Client disconnected with error: {e}")
         finally:
@@ -73,10 +74,10 @@ class Server:
                 logging.info(f"Received choice from {addr}: {choice}")
 
                 writer.write("Received Choice\n".encode('utf-8'))
-                await writer.drain()
+                await writer.drain() # Flush the write buffer, ensuring the client receives the data
 
                 if choice == "LOGIN":
-                    await self.login(reader, writer)
+                    await self.login(reader, writer) #ensures functions run asynchronously using await keyword
                 elif choice == "REGISTER":
                     await self.register(reader, writer)
                 elif choice == "FETCH_FOOD_DATA":
@@ -110,12 +111,13 @@ class Server:
             logging.error(f"Heartbeat error: {e}")
 
     async def login(self, reader, writer):
+    
         try:
             username = await reader.readline()
             password = await reader.readline()
             username = username.decode('utf-8').strip()
             password = password.decode('utf-8').strip()
-
+            print(self.login_attempts)
             logging.info(f"Login attempt for username: {username}")
 
             conn = sqlite3.connect("userdata.db")
@@ -129,14 +131,21 @@ class Server:
                 hashed_password = scrypt(password.encode('utf-8'), salt, 32, N=2**14, r=8, p=1)
                 admin_status = result[2]
 
-                if stored_hashed_password == hashed_password:
+                if stored_hashed_password == hashed_password and self.login_attempts <= 3:
                     if admin_status == 1:
                         writer.write("Admin Login Successful!\n".encode('utf-8'))
                         logging.info(f"Admin Login Successful for username: {username}")
                     else:
                         writer.write("Login Successful!\n".encode('utf-8'))
                         logging.info(f"Login Successful for username: {username}")
+                elif self.login_attempts > 3:
+                    writer.write("Login Attempts Exceeded!Account locked out!Contact admin!\n".encode('utf-8'))
+                    logging.warning(f"Login Attempts Exceeded for username: {username}")
+                    cur.execute("UPDATE userdata SET can_login = 0 WHERE username_client = ?", (username,))
+                    logging.warning(f"user login blocked for: {username}")
+
                 else:
+                    self.login_attempts += 1
                     writer.write("Login Failed!\n".encode('utf-8'))
                     logging.warning(f"Login Failed for username: {username}")
             else:
