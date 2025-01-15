@@ -310,3 +310,86 @@
 2025-01-15 22:00:15,940 - INFO - Disconnected: ('127.0.0.1', 63002)
 2025-01-15 22:00:15,940 - ERROR - Client disconnected with error: [WinError 64] The specified network name is no longer available
 2025-01-15 22:00:15,940 - ERROR - Client forcibly closed the connection
+2025-01-15 22:33:27,501 - INFO - Server started
+2025-01-15 22:33:29,686 - INFO - New client connected: ('127.0.0.1', 63239)
+2025-01-15 22:33:29,687 - INFO - Shared key established with ('127.0.0.1', 63239): 5633187122406291585876377482200915336704596940514992797009761736957416615507
+2025-01-15 22:34:27,276 - INFO - Received choice from ('127.0.0.1', 63239): REGISTER
+2025-01-15 22:34:27,276 - ERROR - An error occurred: 'Server' object has no attribute 'register'
+2025-01-15 22:34:27,276 - INFO - Disconnected: ('127.0.0.1', 63239)
+2025-01-15 22:34:27,277 - ERROR - Client disconnected with error: [SSL: APPLICATION_DATA_AFTER_CLOSE_NOTIFY] application data after close notify (_ssl.c:2706)
+2025-01-15 22:34:27,277 - ERROR - Unhandled exception in client_connected_cb
+transport: <asyncio.sslproto._SSLProtocolTransport object at 0x000001FD5CD13890>
+Traceback (most recent call last):
+  File "c:\Users\kacpe\Desktop\tracker\Calorie-Tracker-App-1\server.py", line 67, in handle_client
+    await writer.wait_closed()
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\streams.py", line 364, in wait_closed
+    await self._protocol._get_close_waiter(self)
+ssl.SSLError: [SSL: APPLICATION_DATA_AFTER_CLOSE_NOTIFY] application data after close notify (_ssl.c:2706)
+2025-01-15 22:41:36,026 - INFO - Server started
+2025-01-15 22:41:38,931 - INFO - New client connected: ('127.0.0.1', 63299)
+2025-01-15 22:41:38,931 - INFO - Shared key established with ('127.0.0.1', 63299): 49015467543816355671516933883461248048853220739338425175834552605460442066688
+2025-01-15 22:41:47,406 - INFO - Received choice from ('127.0.0.1', 63299): REGISTER
+2025-01-15 22:41:47,406 - INFO - Register attempt for username: test
+2025-01-15 22:41:47,435 - WARNING - Account already registered for username: test
+2025-01-15 22:41:57,326 - ERROR - An error occurred: [WinError 64] The specified network name is no longer available
+2025-01-15 22:41:57,326 - INFO - Disconnected: ('127.0.0.1', 63299)
+2025-01-15 22:41:57,326 - ERROR - Client disconnected with error: [WinError 64] The specified network name is no longer available
+2025-01-15 22:41:57,326 - ERROR - Client forcibly closed the connection
+2025-01-15 22:42:08,643 - INFO - Server started
+2025-01-15 22:42:10,808 - INFO - New client connected: ('127.0.0.1', 63308)
+2025-01-15 22:42:10,808 - INFO - Shared key established with ('127.0.0.1', 63308): 30011297126657748070451982603305721334457876652968241046696498241639101624809
+2025-01-15 22:42:17,596 - INFO - Received choice from ('127.0.0.1', 63308): REGISTER
+2025-01-15 22:42:17,598 - INFO - Register attempt for username: test
+2025-01-15 22:42:17,637 - INFO - Register successful for username: test
+2025-01-15 22:44:32,802 - INFO - Received choice from ('127.0.0.1', 63308): LOGIN
+2025-01-15 22:44:32,802 - INFO - Login attempt for username: test
+2025-01-15 22:44:32,831 - INFO - Login Successful for username: test
+2025-01-15 22:47:13,078 - ERROR - An error occurred: [WinError 64] The specified network name is no longer available
+2025-01-15 22:47:13,078 - INFO - Disconnected: ('127.0.0.1', 63308)
+2025-01-15 22:47:13,078 - ERROR - Client disconnected with error: [WinError 64] The specified network name is no longer available
+2025-01-15 22:47:13,078 - ERROR - Client forcibly closed the connection
+2025-01-15 22:47:16,052 - INFO - New client connected: ('127.0.0.1', 63347)
+2025-01-15 22:47:16,052 - INFO - Shared key established with ('127.0.0.1', 63347): 47690712447210151600014882439412238396079408180585377178393838615092588091373
+2025-01-15 22:47:29,242 - INFO - Received choice from ('127.0.0.1', 63347): REGISTER
+2025-01-15 22:47:29,244 - INFO - Register attempt for username: test
+2025-01-15 22:47:29,273 - WARNING - Account already registered for username: test
+2025-01-15 22:49:04,656 - INFO - Received choice from ('127.0.0.1', 63347): LOGIN
+2025-01-15 22:49:04,656 - INFO - Login attempt for username: test
+2025-01-15 22:49:04,684 - WARNING - Login Failed for username: test
+2025-01-15 22:49:11,085 - ERROR - An error occurred: [WinError 64] The specified network name is no longer available
+2025-01-15 22:49:11,085 - INFO - Disconnected: ('127.0.0.1', 63347)
+2025-01-15 22:49:11,085 - ERROR - Client disconnected with error: [WinError 64] The specified network name is no longer available
+2025-01-15 22:49:11,085 - ERROR - Client forcibly closed the connection
+2025-01-15 22:50:49,743 - INFO - Server started
+2025-01-15 22:50:53,083 - INFO - New client connected: ('127.0.0.1', 63389)
+2025-01-15 22:50:53,083 - INFO - Shared key established with ('127.0.0.1', 63389): 15189117125031287610073953455194757275343877290615637214376913864460752504410
+2025-01-15 22:50:57,433 - INFO - Received choice from ('127.0.0.1', 63389): LOGIN
+2025-01-15 22:50:57,434 - INFO - Login attempt for username: test
+2025-01-15 22:50:57,461 - WARNING - Login Failed for username: test
+2025-01-15 22:57:48,804 - INFO - Received choice from ('127.0.0.1', 63389): LOGIN
+2025-01-15 22:57:48,805 - INFO - Login attempt for username: admin
+2025-01-15 22:57:48,832 - INFO - Admin Login Successful for username: admin
+2025-01-15 22:58:38,950 - INFO - Received choice from ('127.0.0.1', 63389): FETCH_LOGGING_INFO
+2025-01-15 22:58:38,950 - INFO - Fetching recent logs
+2025-01-15 22:58:38,959 - INFO - Recent logs fetched
+2025-01-15 23:00:26,262 - INFO - Received choice from ('127.0.0.1', 63389): FETCH_CLIENT_DATA
+2025-01-15 23:00:26,262 - INFO - Fetching client data
+2025-01-15 23:00:26,264 - INFO - Client data fetched: [('admin',), ('kas',), ('test',)]
+2025-01-15 23:03:16,181 - ERROR - An error occurred: [WinError 64] The specified network name is no longer available
+2025-01-15 23:03:16,181 - INFO - Disconnected: ('127.0.0.1', 63389)
+2025-01-15 23:03:16,181 - ERROR - Client disconnected with error: [WinError 64] The specified network name is no longer available
+2025-01-15 23:03:16,181 - ERROR - Client forcibly closed the connection
+2025-01-15 23:03:24,404 - INFO - New client connected: ('127.0.0.1', 57171)
+2025-01-15 23:03:24,404 - INFO - Shared key established with ('127.0.0.1', 57171): 71117984363899294072193425679808610408399774024444658442803355457312424142440
+2025-01-15 23:03:29,514 - INFO - Received choice from ('127.0.0.1', 57171): LOGIN
+2025-01-15 23:03:29,514 - INFO - Login attempt for username: kas
+2025-01-15 23:03:29,543 - INFO - Login Successful for username: kas
+2025-01-15 23:04:32,073 - INFO - Received choice from ('127.0.0.1', 57171): ADD
+2025-01-15 23:04:32,073 - INFO - Adding food item for username kas: food, 100
+2025-01-15 23:04:33,322 - INFO - Received choice from ('127.0.0.1', 57171): FETCH_FOOD_DATA
+2025-01-15 23:04:33,322 - INFO - Fetching food data for username: kas
+2025-01-15 23:04:33,325 - INFO - Food data fetched for username kas: [('15-01-2025', 'food', 122), ('15-01-2025', 'food', 100)]
+2025-01-15 23:05:59,297 - ERROR - An error occurred: [WinError 64] The specified network name is no longer available
+2025-01-15 23:05:59,297 - INFO - Disconnected: ('127.0.0.1', 57171)
+2025-01-15 23:05:59,297 - ERROR - Client disconnected with error: [WinError 64] The specified network name is no longer available
+2025-01-15 23:05:59,297 - ERROR - Client forcibly closed the connection

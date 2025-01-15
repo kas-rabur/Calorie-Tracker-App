@@ -115,54 +115,54 @@ class Server:
         except Exception as e:
             logging.error(f"Heartbeat error: {e}")
 
-async def login(self, reader, writer):
-    try:
-        username = await reader.readline()
-        password = await reader.readline()
-        username = username.decode('utf-8').strip()
-        password = password.decode('utf-8').strip()
-        logging.info(f"Login attempt for username: {username}")
+    async def login(self, reader, writer):
+        try:
+            username = await reader.readline()
+            password = await reader.readline()
+            username = username.decode('utf-8').strip()
+            password = password.decode('utf-8').strip()
+            logging.info(f"Login attempt for username: {username}")
 
-        conn = sqlite3.connect("userdata.db")
-        cur = conn.cursor()
-        cur.execute("SELECT password, salt, admin FROM userdata WHERE username_client = ?", (username,))
-        result = cur.fetchone()
+            conn = sqlite3.connect("userdata.db")
+            cur = conn.cursor()
+            cur.execute("SELECT password, salt, admin FROM userdata WHERE username_client = ?", (username,))
+            result = cur.fetchone()
 
-        if result:
-            stored_hashed_password = base64.b64decode(result[0])
-            salt = base64.b64decode(result[1])
-            hashed_password = scrypt(password.encode('utf-8'), salt, 32, N=2**14, r=8, p=1)
-            admin_status = result[2]
+            if result:
+                stored_hashed_password = base64.b64decode(result[0])
+                salt = base64.b64decode(result[1])
+                hashed_password = scrypt(password.encode('utf-8'), salt, 32, N=2**14, r=8, p=1)
+                admin_status = result[2]
 
-            if username not in self.login_attempts:
-                self.login_attempts[username] = 0
+                if username not in self.login_attempts:
+                    self.login_attempts[username] = 0
 
-            if stored_hashed_password == hashed_password:
-                if admin_status == 1:
-                    writer.write("Admin Login Successful!\n".encode('utf-8'))
-                    logging.info(f"Admin Login Successful for username: {username}")
+                if stored_hashed_password == hashed_password:
+                    if admin_status == 1:
+                        writer.write("Admin Login Successful!\n".encode('utf-8'))
+                        logging.info(f"Admin Login Successful for username: {username}")
+                    else:
+                        writer.write("Login Successful!\n".encode('utf-8'))
+                        logging.info(f"Login Successful for username: {username}")
+                    self.login_attempts[username] = 0  # Reset attempts on successful login
                 else:
-                    writer.write("Login Successful!\n".encode('utf-8'))
-                    logging.info(f"Login Successful for username: {username}")
-                self.login_attempts[username] = 0  # Reset attempts on successful login
+                    self.login_attempts[username] += 1
+                    if self.login_attempts[username] > 3:
+                        writer.write("Login Attempts Exceeded! Account locked out! Contact admin!\n".encode('utf-8'))
+                        logging.warning(f"Login Attempts Exceeded for username: {username}")
+                        cur.execute("UPDATE userdata SET can_login = 0 WHERE username_client = ?", (username,))
+                        logging.warning(f"User login blocked for: {username}")
+                    else:
+                        writer.write(f"Login Failed! {self.login_attempts[username]} attempts remaining\n".encode('utf-8'))
+                        logging.warning(f"Login Failed for username: {username}")
             else:
-                self.login_attempts[username] += 1
-                if self.login_attempts[username] > 3:
-                    writer.write("Login Attempts Exceeded! Account locked out! Contact admin!\n".encode('utf-8'))
-                    logging.warning(f"Login Attempts Exceeded for username: {username}")
-                    cur.execute("UPDATE userdata SET can_login = 0 WHERE username_client = ?", (username,))
-                    logging.warning(f"User login blocked for: {username}")
-                else:
-                    writer.write("Login Failed!\n".encode('utf-8'))
-                    logging.warning(f"Login Failed for username: {username}")
-        else:
-            writer.write("Login Failed!\n".encode('utf-8'))
-            logging.warning(f"Login Failed for username: {username}")
-        conn.close()
-    except sqlite3.Error as db_error:
-        logging.error(f"Database error during login: {db_error}")
-    except Exception as e:
-        logging.error(f"An error occurred during login: {e}")
+                writer.write("Login Failed!\n".encode('utf-8'))
+                logging.warning(f"Login Failed for username: {username}")
+            conn.close()
+        except sqlite3.Error as db_error:
+            logging.error(f"Database error during login: {db_error}")
+        except Exception as e:
+            logging.error(f"An error occurred during login: {e}")
 
     async def register(self, reader, writer):
         try:
