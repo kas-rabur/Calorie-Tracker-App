@@ -279,3 +279,34 @@
 2025-01-05 16:02:17,589 - INFO - Disconnected: ('127.0.0.1', 53339)
 2025-01-05 16:02:17,589 - ERROR - Client disconnected with error: [WinError 64] The specified network name is no longer available
 2025-01-05 16:02:17,590 - ERROR - Client forcibly closed the connection
+2025-01-15 21:49:15,692 - INFO - Server started
+2025-01-15 21:49:19,714 - INFO - New client connected: ('127.0.0.1', 62905)
+2025-01-15 21:49:19,714 - INFO - Shared key established with ('127.0.0.1', 62905): 23419206709266467022799082368095891875698020219437054400561279610257458442671
+2025-01-15 21:49:24,411 - INFO - Received choice from ('127.0.0.1', 62905): LOGIN
+2025-01-15 21:49:24,411 - INFO - Login attempt for username: kas
+2025-01-15 21:49:24,450 - INFO - Login Successful for username: kas
+2025-01-15 21:49:27,663 - INFO - Received choice from ('127.0.0.1', 62905): FETCH_FOOD_DATA
+2025-01-15 21:49:27,663 - INFO - Fetching food data for username: kas
+2025-01-15 21:49:27,664 - INFO - Food data fetched for username kas: []
+2025-01-15 21:49:36,559 - INFO - Received choice from ('127.0.0.1', 62905): ADD
+2025-01-15 21:49:36,559 - INFO - Adding food item for username kas: food, 122
+2025-01-15 21:49:37,525 - INFO - Received choice from ('127.0.0.1', 62905): FETCH_FOOD_DATA
+2025-01-15 21:49:37,526 - INFO - Fetching food data for username: kas
+2025-01-15 21:49:37,527 - INFO - Food data fetched for username kas: [('15-01-2025', 'food', 122)]
+2025-01-15 21:49:42,579 - ERROR - An error occurred: [WinError 64] The specified network name is no longer available
+2025-01-15 21:49:42,579 - INFO - Disconnected: ('127.0.0.1', 62905)
+2025-01-15 21:49:42,579 - ERROR - Client disconnected with error: [WinError 64] The specified network name is no longer available
+2025-01-15 21:49:42,580 - ERROR - Client forcibly closed the connection
+2025-01-15 21:58:03,108 - INFO - Server started
+2025-01-15 21:58:06,683 - INFO - New client connected: ('127.0.0.1', 63002)
+2025-01-15 21:58:06,683 - INFO - Shared key established with ('127.0.0.1', 63002): 48652314439147474760293356659544645515553936696875777971633930701437131255481
+2025-01-15 21:58:09,861 - INFO - Received choice from ('127.0.0.1', 63002): LOGIN
+2025-01-15 21:58:09,861 - INFO - Login attempt for username: aksas
+2025-01-15 21:58:09,862 - WARNING - Login Failed for username: aksas
+2025-01-15 21:58:15,064 - INFO - Received choice from ('127.0.0.1', 63002): LOGIN
+2025-01-15 21:58:15,064 - INFO - Login attempt for username: kas
+2025-01-15 21:58:15,094 - INFO - Login Successful for username: kas
+2025-01-15 22:00:15,940 - ERROR - An error occurred: [WinError 64] The specified network name is no longer available
+2025-01-15 22:00:15,940 - INFO - Disconnected: ('127.0.0.1', 63002)
+2025-01-15 22:00:15,940 - ERROR - Client disconnected with error: [WinError 64] The specified network name is no longer available
+2025-01-15 22:00:15,940 - ERROR - Client forcibly closed the connection
