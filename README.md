@@ -21,9 +21,6 @@ This project is a secure, networked calorie tracking system built with Python. I
 - Account lockout after 4 failed login attempts.
 - Logging of login attempts and data access for audit purposes.
 
-### ❗Missing / In Progress
-- Heartbeat mechanism for maintaining persistent connection.
-
 ---
 
 ## Setup Instructions
